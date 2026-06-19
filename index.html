@@ -43,10 +43,32 @@
         .login-logo { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; aspect-ratio: 1 / 1; border: 3px solid var(--neon-cyan); box-shadow: 0 0 25px rgba(0, 242, 254, 0.35); transition: var(--transition-bounce); }
         .login-logo:hover { transform: scale(1.08) rotate(3deg); }
 
-        .google-btn { display: flex; align-items: center; justify-content: center; flex-direction: row-reverse; gap: 20px; width: 90%; max-width: 420px; padding: 18px 30px; background: #ffffff; border: none; outline: none; border-radius: 50px; color: #000000; font-size: 19px; font-weight: 700; cursor: pointer; transition: var(--transition-smooth); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); margin: 20px auto 0 auto; }
-        .google-btn:hover { background: #f8fafc; transform: translateY(-2px); box-shadow: 0 15px 30px rgba(0, 242, 254, 0.2); }
-        .google-btn:active { transform: translateY(1px); }
-        .google-btn svg { width: 26px; height: 26px; flex-shrink: 0; }
+        /* ─── زر ابدأ اللعب ونظام المودال الجديد ─── */
+        .start-playing-btn { display: flex; align-items: center; justify-content: center; gap: 12px; width: 90%; max-width: 420px; padding: 18px 30px; background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-purple) 100%); border: none; outline: none; border-radius: 50px; color: #ffffff; font-size: 20px; font-weight: 700; cursor: pointer; transition: var(--transition-bounce); box-shadow: 0 10px 25px rgba(0, 242, 254, 0.3); margin: 20px auto 0 auto; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .start-playing-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0, 242, 254, 0.5); }
+        .start-playing-btn:active { transform: translateY(1px); }
+
+        .auth-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 5, 20, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; visibility: hidden; transition: var(--transition-smooth); padding: 20px; }
+        .auth-modal.open { opacity: 1; visibility: visible; }
+        .auth-box { background: rgba(9, 13, 26, 0.95); border: 2px solid var(--neon-cyan); width: 100%; max-width: 440px; border-radius: 28px; padding: 30px 24px; box-shadow: 0 0 40px rgba(0, 242, 254, 0.25); transform: scale(0.8) translateY(50px); transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); color: white; }
+        .auth-modal.open .auth-box { transform: scale(1) translateY(0); }
+        
+        .auth-tabs { display: flex; background: rgba(255,255,255,0.05); padding: 6px; border-radius: 16px; margin-bottom: 24px; border: 1px solid rgba(255,255,255,0.08); }
+        .auth-tab { flex: 1; padding: 12px; text-align: center; font-weight: 700; font-size: 15px; cursor: pointer; border-radius: 12px; transition: var(--transition-smooth); color: #94a3b8; }
+        .auth-tab.active { background: linear-gradient(135deg, var(--neon-cyan) 0%, #0099a4 100%); color: #050515; box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3); }
+        
+        .auth-form { display: none; flex-direction: column; gap: 16px; text-align: right; }
+        .auth-form.active { display: flex; animation: fadeIn 0.4s ease; }
+        
+        .auth-input-group { display: flex; flex-direction: column; gap: 6px; }
+        .auth-input-group label { font-size: 13px; font-weight: 600; color: #cbd5e1; }
+        .auth-input-group input { width: 100%; padding: 14px 16px; background: rgba(255,255,255,0.03); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 14px; color: white; outline: none; font-size: 15px; transition: var(--transition-smooth); text-align: right; }
+        .auth-input-group input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0, 242, 254, 0.2); background: rgba(255,255,255,0.07); }
+        
+        .btn-auth-submit { width: 100%; padding: 15px; margin-top: 10px; background: linear-gradient(135deg, #10b981 0%, #047857 100%); border: none; border-radius: 14px; color: white; font-size: 16px; font-weight: 700; cursor: pointer; transition: var(--transition-bounce); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25); }
+        .btn-auth-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4); }
+        .auth-close-x { float: left; cursor: pointer; font-size: 18px; color: #64748b; transition: var(--transition-smooth); }
+        .auth-close-x:hover { color: var(--neon-pink); }
 
         .dashboard { display: none; opacity: 0; height: 100vh; flex-direction: column; transition: var(--transition-smooth); }
         .dashboard.visible { display: flex; opacity: 1; }
@@ -87,7 +109,6 @@
         .btn-logo-wrapper svg, .btn-logo-wrapper img { width: 100%; height: 100%; object-fit: contain; fill: currentColor; }
         .menu-action-btn:hover .btn-logo-wrapper { transform: scale(1.2) rotate(8deg); }
 
-        /* ─── تحديث تصميم القائمة الجانبية لتصبح بوابة تغطي الشاشة بالكامل ─── */
         .sidebar-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(5, 5, 20, 0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
@@ -233,7 +254,7 @@
             <h1 style="color:var(--neon-pink); font-size:60px; margin-bottom:16px;">🚫</h1>
             <h2 style="font-weight:700; margin-bottom:12px;">تم حظر حسابك بالكامل!</h2>
             <p style="color:#94a3b8; font-size:14px; line-height:1.7; margin-bottom:24px;">لقد تم تجميد صلاحيات هذا الحساب من طرف الإدارة لمخالفتك شروط القوانين واللعب النظيف.</p>
-            <button class="google-btn" style="background:#ef4444; color:white; border:none;" onclick="logoutDirectlyWithoutConfirm()">تسجيل الخروج</button>
+            <button class="start-playing-btn" style="background:#ef4444; color:white; border:none;" onclick="logoutDirectlyWithoutConfirm()">تسجيل الخروج</button>
         </div>
     </div>
 
@@ -242,15 +263,49 @@
             <div class="login-logo-wrapper">
                 <img src="https://i.postimg.cc/XYPCzyrh/IMG-20260618-132444.png" alt="My Logo" class="login-logo" onerror="this.src='https://ui-avatars.com/api/?name=Quiz&background=00f2fe&color=050515&size=120'">
             </div>
-            <button class="google-btn" onclick="loginWithGoogle()">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
-                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
-                </svg>
-                <span>تسجيل الدخول </span>
+            <button class="start-playing-btn" onclick="openAuthModal()">
+                <span>ابدأ اللعب الآن 🎮</span>
             </button>
+        </div>
+    </div>
+
+    <div class="auth-modal" id="authModal" onclick="closeAuthModal()">
+        <div class="auth-box" onclick="event.stopPropagation()">
+            <div class="auth-close-x" onclick="closeAuthModal()">✕</div>
+            <h3 style="text-align: center; margin-bottom: 20px; font-weight: 700; color: var(--neon-cyan);">بوابة المحاربين</h3>
+            
+            <div class="auth-tabs">
+                <div class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">تسجيل الدخول</div>
+                <div class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">إنشاء حساب جديد</div>
+            </div>
+
+            <div class="auth-form active" id="formLogin">
+                <div class="auth-input-group">
+                    <label>اسم المستخدم (Username)</label>
+                    <input type="text" id="loginUsername" placeholder="ادخل اسمك المسجل">
+                </div>
+                <div class="auth-input-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••">
+                </div>
+                <button class="btn-auth-submit" onclick="handleCustomLogin()">دخول الحساب ⚡</button>
+            </div>
+
+            <div class="auth-form" id="formRegister">
+                <div class="auth-input-group">
+                    <label>اسم لاعب جديد (يجب أن يكون فريداً)</label>
+                    <input type="text" id="regUsername" placeholder="مثال: NACIROX_1">
+                </div>
+                <div class="auth-input-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" id="regPassword" placeholder="••••••••">
+                </div>
+                <div class="auth-input-group">
+                    <label>تأكيد كلمة المرور</label>
+                    <input type="password" id="regPasswordConfirm" placeholder="••••••••">
+                </div>
+                <button class="btn-auth-submit" style="background: linear-gradient(135deg, var(--neon-purple) 0%, #6366f1 100%);" onclick="handleCustomRegister()">إنشاء الملف السحابي 💎</button>
+            </div>
         </div>
     </div>
 
@@ -350,7 +405,7 @@
         <div class="store-shelf-container">
             <div class="shelf-category-title">القلوب المجانية (Free Rewards)</div>
             <div class="global-premium-grid single-item">
-                <div class="store-card" style="min-height: 180px;"><div class="item-main-qty" style="background: linear-gradient(135deg, #00f2fe, #9b51e0); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">5 قـلوب</div><div class="item-bonus-pct">شاهد فيديو قصير</div><div class="store-art-logo-wrapper" style="color: #ffca28; width: 44px; height: 44px;"><svg viewBox="0 0 24 24"><path d="M21 3H3c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zm-11 12V9l5 3-5 3z" fill="currentColor"/></svg></div><button class="store-buy-btn" onclick="getFreeHeartsByAdStore()">فيديو مجاني 📺</button></div>
+                <div class="store-card" style="min-height: 180px;"><div class="item-main-qty" style="background: linear-gradient(135deg, #00f2fe, #9b51e0); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">5 قـلوب</div><div class="item-bonus-pct">شاهد فيديو قصير</div><div class="store-art-logo-wrapper" style="color: #ffca28; width: 44px; height: 44px;"><svg viewBox="0 0 24 24"><path d="M21 3H3c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zm-11 12V9l5 3-5 3z" fill="currentColor"/></svg></div><div class="store-buy-btn" onclick="getFreeHeartsByAdStore()">فيديو مجاني 📺</div></div>
             </div>
             <div class="shelf-category-title">شراء حزم القلوب (Hearts Pack)</div>
             <div class="global-premium-grid">
@@ -377,7 +432,6 @@
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 
     <script>
@@ -394,7 +448,6 @@
 
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-        const auth = firebase.auth();
 
         let databaseQuestionsPool = []; let quizQuestions = []; let currentUserNode = null; 
         let currentQuestionIndex = 0; let sessionScore = 0; let globalDatabaseHearts = 5; 
@@ -403,7 +456,97 @@
         function shuffleArray(array) { const arr = [...array]; for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
         function directToDashboard() { const lp = document.getElementById('loginPage'); const dp = document.getElementById('dashboardPage'); if (lp && dp) { lp.classList.add('hidden'); setTimeout(() => { lp.style.display = 'none'; }, 400); dp.style.display = 'flex'; setTimeout(() => { dp.classList.add('visible'); }, 10); } }
 
-        auth.onAuthStateChanged(user => { if (user) { currentUserNode = user; checkBanStatusAndListen(user); } else { document.getElementById('dashboardPage').classList.remove('visible'); document.getElementById('dashboardPage').style.display = 'none'; document.getElementById('loginPage').style.display = 'flex'; } });
+        // دالة فحص التخزين المحلي التلقائي للولوج المباشر للحساب المحفوظ
+        function autoLoginCheck() {
+            const savedUid = localStorage.getItem('app_user_uid');
+            if (savedUid) {
+                currentUserNode = { uid: savedUid };
+                checkBanStatusAndListen(currentUserNode);
+            } else {
+                document.getElementById('dashboardPage').classList.remove('visible');
+                document.getElementById('dashboardPage').style.display = 'none';
+                document.getElementById('loginPage').style.display = 'flex';
+            }
+        }
+        window.onload = autoLoginCheck;
+
+        // إدارة فتح وغلق المودال الجديد
+        function openAuthModal() { document.getElementById('authModal').classList.add('open'); }
+        function closeAuthModal() { document.getElementById('authModal').classList.remove('open'); }
+        function switchAuthTab(type) {
+            const tl = document.getElementById('tabLogin'); const tr = document.getElementById('tabRegister');
+            const fl = document.getElementById('formLogin'); const fr = document.getElementById('formRegister');
+            if (type === 'login') {
+                tl.classList.add('active'); tr.classList.remove('active');
+                fl.classList.add('active'); fr.classList.remove('active');
+            } else {
+                tr.classList.add('active'); tl.classList.remove('active');
+                fr.classList.add('active'); fl.classList.remove('active');
+            }
+        }
+
+        // معالجة إنشاء الحساب المخصص والتحقق من عدم تكرار الاسم
+        function handleCustomRegister() {
+            const user = document.getElementById('regUsername').value.trim();
+            const pass = document.getElementById('regPassword').value;
+            const passConf = document.getElementById('regPasswordConfirm').value;
+
+            if (!user || !pass || !passConf) { alert("الرجاء ملء جميع الحقول ⚠️"); return; }
+            if (user.length < 3) { alert("يجب أن يكون الاسم من 3 أحرف فأكثر ⚠️"); return; }
+            if (pass.length < 6) { alert("كلمة المرور ضعيفة! يجب أن تكون 6 خانات فأكثر 🔒"); return; }
+            if (pass !== passConf) { alert("كلمة المرور غير متطابقة! أعد التأكيد ❌"); return; }
+
+            // فحص قاعدة البيانات للتأكد من عدم وجود تكرار للاسم المسجل
+            database.ref('users').orderByChild('name').equalTo(user).once('value', (snapshot) => {
+                if (snapshot.exists()) {
+                    alert("هذا الاسم محجوز للاعب آخر! اختر اسماً فريداً ومميزاً 🚫");
+                } else {
+                    const cleanUid = "custom_" + Math.random().toString(36).substr(2, 9) + "_" + new Date().getTime();
+                    const newUserObj = {
+                        uid: cleanUid,
+                        name: user,
+                        password: pass,
+                        points: 0,
+                        hearts: 5,
+                        avatar: "",
+                        online: true,
+                        banned: false
+                    };
+                    database.ref('users/' + cleanUid).set(newUserObj).then(() => {
+                        localStorage.setItem('app_user_uid', cleanUid);
+                        currentUserNode = { uid: cleanUid };
+                        closeAuthModal();
+                        checkBanStatusAndListen(currentUserNode);
+                    });
+                }
+            });
+        }
+
+        // معالجة تسجيل الدخول بالإسم والباسوورد
+        function handleCustomLogin() {
+            const user = document.getElementById('loginUsername').value.trim();
+            const pass = document.getElementById('loginPassword').value;
+
+            if (!user || !pass) { alert("الرجاء إدخال الاسم وكلمة المرور ⚠️"); return; }
+
+            database.ref('users').orderByChild('name').equalTo(user).once('value', (snapshot) => {
+                if (snapshot.exists()) {
+                    let foundUserData = null; let foundUid = null;
+                    snapshot.forEach((child) => { foundUid = child.key; foundUserData = child.val(); });
+
+                    if (foundUserData.password === pass) {
+                        localStorage.setItem('app_user_uid', foundUid);
+                        currentUserNode = { uid: foundUid };
+                        closeAuthModal();
+                        checkBanStatusAndListen(currentUserNode);
+                    } else {
+                        alert("كلمة المرور خاطئة! حاول مجدداً 🔒");
+                    }
+                } else {
+                    alert("اسم المستخدم غير مسجل لدينا! يرجى إنشاء حساب جديد 📋");
+                }
+            });
+        }
 
         function checkBanStatusAndListen(user) {
             database.ref('users/' + user.uid + '/banned').on('value', (snap) => {
@@ -417,7 +560,7 @@
         function listenToUserData(uid) {
             database.ref('users/' + uid).on('value', (snapshot) => {
                 let data = snapshot.val();
-                if (!data) { data = { name: currentUserNode.displayName || "لاعب جديد", email: currentUserNode.email || "", points: 0, hearts: 5, avatar: currentUserNode.photoURL || "", online: true, banned: false }; database.ref('users/' + uid).set(data); return; }
+                if (!data) return;
                 globalDatabaseHearts = data.hearts !== undefined ? data.hearts : 5;
                 document.getElementById('headerName').innerText = data.name || "لاعب جديد";
                 document.getElementById('badgePoints').innerText = data.points || 0;
@@ -445,10 +588,9 @@
         
         function switchPolicyPane(index, btn) { const panes = document.querySelectorAll('.policy-pane'); panes.forEach(p => p.classList.remove('active')); const buttons = document.querySelectorAll('.policy-row-btn'); buttons.forEach(b => b.classList.remove('active')); if(panes[index]) panes[index].classList.add('active'); if(btn) btn.classList.add('active'); }
 
-        function handleDeleteAccountAction() { if (!currentUserNode) return; if (confirm("⚠️ حذف نهائي للحساب؟")) { database.ref('users/' + currentUserNode.uid).remove().then(() => { currentUserNode.delete().then(() => { location.reload(); }).catch(() => { auth.signOut().then(() => location.reload()); }); }); } }
-        function loginWithGoogle() { const p = new firebase.auth.GoogleAuthProvider(); auth.signInWithPopup(p).then(() => directToDashboard()).catch(() => auth.signInWithRedirect(p)); }
+        function handleDeleteAccountAction() { if (!currentUserNode) return; if (confirm("⚠️ حذف نهائي للحساب؟")) { database.ref('users/' + currentUserNode.uid).remove().then(() => { localStorage.removeItem('app_user_uid'); location.reload(); }); } }
         function logout() { if (confirm("خروج؟ 🚪")) logoutDirectlyWithoutConfirm(); }
-        function logoutDirectlyWithoutConfirm() { if (currentUserNode) database.ref('users/' + currentUserNode.uid + '/online').set(false); auth.signOut().then(() => location.reload()); }
+        function logoutDirectlyWithoutConfirm() { if (currentUserNode) database.ref('users/' + currentUserNode.uid + '/online').set(false); localStorage.removeItem('app_user_uid'); location.reload(); }
         function openStoreScreen() { const s = document.getElementById('storeScreen'); s.style.display = 'flex'; setTimeout(() => s.classList.add('active'), 10); }
         function closeStoreScreen() { const s = document.getElementById('storeScreen'); s.classList.remove('active'); setTimeout(() => s.style.display = 'none', 400); }
 
@@ -489,7 +631,6 @@
         
         function closeEditModal() { document.getElementById('editModal').classList.remove('open'); uploadedImgBase64 = null; }
         
-        /* ─── تعديل دالة المعالجة لتصغير الصورة تلقائياً لـ 44x44 بكسل خفيف ─── */
         function previewImage(e) { 
             const file = e.target.files[0]; 
             if (file) { 
@@ -514,7 +655,6 @@
             } 
         }
 
-        /* ─── دالة الحفظ السحابية المحدثة للـ Base64 المضغوط ─── */
         function saveProfile() {
             const un = document.getElementById('editNameInput').value.trim(); if(!un || !currentUserNode) return;
             const uid = currentUserNode.uid; const now = new Date().getTime(); 
@@ -532,23 +672,37 @@
                 if (nameChanged) {
                     const ln = data.last_name_change || 0;
                     if (ln && (now - parseInt(ln) < SEVEN_DAYS_MS)) { alert("الاسم مقفل حالياً."); btnSave.disabled = false; btnSave.innerText = "حفظ التعديلات"; return; }
-                    ups.name = un; ups.last_name_change = now;
-                }
-
-                if (avatarChanged) {
-                    const la = data.last_avatar_change || 0;
-                    if (la && (now - parseInt(la) < SEVEN_DAYS_MS)) { alert("الصورة مقفلة حالياً."); btnSave.disabled = false; btnSave.innerText = "حفظ التعديلات"; return; }
-                    ups.avatar = uploadedImgBase64; ups.last_avatar_change = now;
-                }
-
-                if (Object.keys(ups).length > 0) {
-                    database.ref('users/' + uid).update(ups).then(() => {
-                        btnSave.disabled = false; btnSave.innerText = "حفظ التعديلات"; closeEditModal();
+                    
+                    // التحقق من الاسم الجديد أيضاً لضمان عدم تكرار الأسماء أثناء التعديل
+                    database.ref('users').orderByChild('name').equalTo(un).once('value', (chkSnap) => {
+                        if (chkSnap.exists() && chkSnap.val()[Object.keys(chkSnap.val())[0]].uid !== uid) {
+                            alert("هذا الاسم مستخدم بالفعل! اختر اسماً آخر 🚫");
+                            btnSave.disabled = false; btnSave.innerText = "حفظ التعديلات";
+                        } else {
+                            ups.name = un; ups.last_name_change = now;
+                            completeProfileSave(uid, ups, avatarChanged, data, now, btnSave);
+                        }
                     });
                 } else {
-                    btnSave.disabled = false; btnSave.innerText = "حفظ التعديلات"; closeEditModal();
+                    completeProfileSave(uid, ups, avatarChanged, data, now, btnSave);
                 }
             });
+        }
+
+        function completeProfileSave(uid, ups, avatarChanged, data, now, btnSave) {
+            if (avatarChanged) {
+                const la = data.last_avatar_change || 0;
+                if (la && (now - parseInt(la) < SEVEN_DAYS_MS)) { alert("الصورة مقفلة حالياً."); btnSave.disabled = false; btnSave.innerText = "حفظ التعديلات"; return; }
+                ups.avatar = uploadedImgBase64; ups.last_avatar_change = now;
+            }
+
+            if (Object.keys(ups).length > 0) {
+                database.ref('users/' + uid).update(ups).then(() => {
+                    btnSave.disabled = false; btnSave.innerText = "حفظ التعديلات"; closeEditModal();
+                });
+            } else {
+                btnSave.disabled = false; btnSave.innerText = "حفظ التعديلات"; closeEditModal();
+            }
         }
 
         document.addEventListener("DOMContentLoaded", () => { document.getElementById('editAvatarWrapper').addEventListener('click', () => { if (document.getElementById('editAvatarWrapper').style.pointerEvents !== 'none') document.getElementById('fileInput').click(); }); });
