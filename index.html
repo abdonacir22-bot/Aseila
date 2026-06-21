@@ -656,19 +656,44 @@
 
         function buyItemAction(name, price) { alert(`شراء: ${name}`); if (currentUserNode) { let qty = name.includes("30") ? 30 : (name.includes("80") ? 80 : 180); database.ref('users/' + currentUserNode.uid + '/hearts').set(globalDatabaseHearts + qty); } }
         
+        // خوارزمية فحص موحدة وتحديد سقف الإعلانات لـ 24 ساعة (بحد أقصى 10 إعلانات)
+        function checkAndIncrementAdLimit() {
+            const uid = currentUserNode.uid;
+            const now = new Date().getTime();
+            const TWENTY_FOUR_HOURS_MS = 24 * 60 * 60 * 1000;
+            
+            let adData = JSON.parse(localStorage.getItem('global_ad_limit_data_' + uid)) || { count: 0, firstAdTime: now };
+            
+            // إذا مرت 24 ساعة، يتم ريست للعداد ويبدأ وقت الـ 24 ساعة الجديدة من الآن
+            if (now - adData.firstAdTime > TWENTY_FOUR_HOURS_MS) {
+                adData.count = 0;
+                adData.firstAdTime = now;
+            }
+            
+            if (adData.count >= 10) {
+                const hoursLeft = Math.ceil((TWENTY_FOUR_HOURS_MS - (now - adData.firstAdTime)) / (1000 * 60 * 60));
+                alert(`لقد استهلكت جميع محاولاتك الإعلانية لهذا اليوم ⚠️ عد بعد ${hoursLeft} ساعة!`);
+                return false;
+            }
+            
+            adData.count++;
+            localStorage.setItem('global_ad_limit_data_' + uid, JSON.stringify(adData));
+            return true;
+        }
+
         function getFreeHeartsByAdStore() {
-            const uid = currentUserNode.uid; const now = new Date().getTime(); let adData = JSON.parse(localStorage.getItem('store_ad_limit_data_' + uid)) || { count: 0, firstAdTime: now };
-            if (now - adData.firstAdTime > 5*60*60*1000) { adData.count = 0; adData.firstAdTime = now; }
-            if (adData.count >= 10) { alert("انتظر 5 ساعات للإعلانات الجديدة"); return; }
-            adData.count++; localStorage.setItem('store_ad_limit_data_' + uid, JSON.stringify(adData));
+            if (!currentUserNode) return;
+            if (!checkAndIncrementAdLimit()) return; // التحقق من الحد اليومي الموحد
+            
+            const uid = currentUserNode.uid;
             database.ref('users/' + uid + '/hearts').set(globalDatabaseHearts + 5);
         }
 
         function triggerCountdownBeforeGame() {
             if (databaseQuestionsPool.length === 0) { alert("جاري تحميل الأسئلة..."); return; }
-            activeEasyPool = shuffleArray(databaseQuestionsPool.filter(q => q.difficulty === 'easy' || !q.difficulty));
-            activeMediumPool = shuffleArray(databaseQuestionsPool.filter(q => q.difficulty === 'medium'));
-            activeHardPool = shuffleArray(databaseQuestionsPool.filter(q => q.difficulty === 'hard'));
+            activeEasyPool = shuffleArray(databaseQuestionsPool.filter(q => q && (q.difficulty === 'easy' || !q.difficulty)));
+            activeMediumPool = shuffleArray(databaseQuestionsPool.filter(q => q && q.difficulty === 'medium'));
+            activeHardPool = shuffleArray(databaseQuestionsPool.filter(q => q && q.difficulty === 'hard'));
 
             const ol = document.getElementById('countdownOverlay'); const nd = document.getElementById('countdownNum');
             let c = 3; ol.style.display = 'flex'; setTimeout(() => ol.classList.add('active'), 10); nd.innerText = c;
@@ -699,8 +724,10 @@
             }
 
             let cq = targetPool.splice(0, 1)[0];
+            if (!cq || !cq.options) { loadNextQuestion(); return; } // تفادي الكراش إذا كان السطر مشوه ف فايرباز
+            
             document.getElementById('questionNumLabel').innerText = `السكور الحالي: ${sessionScore} [مستوى: ${diffLabel}]`;
-            document.getElementById('questionTextDisplay').innerText = cq.q;
+            document.getElementById('questionTextDisplay').innerText = cq.q || "سؤال بدون نص";
             
             const gc = document.getElementById('optionsGridContainer'); gc.innerHTML = '';
             const opts = cq.options.map((t, idx) => ({ t, isC: idx === cq.correct }));
@@ -708,7 +735,7 @@
             
             sh.forEach((o, i) => { 
                 const card = document.createElement('div'); 
-                card.className = 'option-card'; card.innerText = o.t; 
+                card.className = 'option-card'; card.innerText = o.t || ""; 
                 card.onclick = () => checkSelectedAnswerMuted(o.isC, card, nci); 
                 gc.appendChild(card); 
             });
@@ -732,25 +759,61 @@
 
         function handleWrongTurn(txt) { document.getElementById('reviveTitleText').innerText = txt; const ub = document.getElementById('useHeartBtn'); if (globalDatabaseHearts > 0) { ub.disabled = false; ub.style.opacity = '1'; } else { ub.disabled = true; ub.style.opacity = '0.4'; } document.getElementById('reviveModal').classList.add('open'); }
         function reviveWithHeart() { if (globalDatabaseHearts > 0 && currentUserNode) { globalDatabaseHearts--; database.ref('users/' + currentUserNode.uid + '/hearts').set(globalDatabaseHearts).then(() => { document.getElementById('gameHeartsText').innerText = globalDatabaseHearts; document.getElementById('reviveModal').classList.remove('open'); loadNextQuestion(); }); } }
-        function reviveWithAd() { const uid = currentUserNode.uid; const now = new Date().getTime(); let adData = JSON.parse(localStorage.getItem('ad_limit_data_' + uid)) || { count: 0, firstAdTime: now }; if (now - adData.firstAdTime > 5*60*60*1000) { adData.count = 0; adData.firstAdTime = now; } if (adData.count >= 10) { alert("استهلكت إعلانات الإنعاش"); return; } adData.count++; localStorage.setItem('ad_limit_data_' + uid, JSON.stringify(adData)); document.getElementById('reviveModal').classList.remove('open'); loadNextQuestion(); }
+        
+        function reviveWithAd() { 
+            if (!currentUserNode) return;
+            if (!checkAndIncrementAdLimit()) return; // التحقق من الحد اليومي الموحد
+            
+            document.getElementById('reviveModal').classList.remove('open'); 
+            loadNextQuestion(); 
+        }
+        
         function endGameAndSave() { document.getElementById('reviveModal').classList.remove('open'); if (currentUserNode && sessionScore > 0) { database.ref('users/' + currentUserNode.uid).once('value').then((snap) => { const d = snap.val(); if(d && sessionScore > (d.points || 0)) database.ref('users/' + currentUserNode.uid).update({ points: sessionScore }); exitGameScreen(); }); } else exitGameScreen(); }
 
         function openLeaderboardScreen() {
             const lc = document.getElementById('leaderboardList'); lc.innerHTML = 'تحميل...';
             database.ref('users').orderByChild('points').limitToLast(20).once('value', (snap) => {
-                lc.innerHTML = ''; let l = []; snap.forEach((c) => { l.push({ uid: c.key, ...c.val() }); }); l.sort((a, b) => (b.points || 0) - (a.points || 0));
+                lc.innerHTML = ''; let l = []; 
+                snap.forEach((c) => { 
+                    if (c.exists() && c.val()) {
+                        l.push({ uid: c.key, ...c.val() }); 
+                    }
+                }); 
+                l.sort((a, b) => (b.points || 0) - (a.points || 0));
+                
                 l.forEach((leader, idx) => {
+                    if (!leader || !leader.name) return; // حماية إضافية ضد الأسطر المشوهة
                     const r = idx + 1; let rc = r===1?'rank-1':(r===2?'rank-2':(r===3?'rank-3':'')); const li = document.createElement('div'); li.className = 'leaderboard-item';
-                    let av = leader.avatar ? `<div class="leaderboard-avatar" style="background-image: url('${leader.avatar}'); background-size: cover;"></div>` : `<div class="leaderboard-avatar">${leader.name.charAt(0)}</div>`;
+                    let av = leader.avatar ? `<div class="leaderboard-avatar" style="background-image: url('${leader.avatar}'); background-size: cover;"></div>` : `<div class="leaderboard-avatar">${(leader.name || "ل").charAt(0)}</div>`;
                     li.innerHTML = `<div class="player-info-side"><div class="rank-badge ${rc}">#${r}</div>${av}<span class="leaderboard-player-name">${leader.name}</span></div><div class="player-points-side"><span>${leader.points || 0}</span></div>`;
                     lc.appendChild(li);
-                    if(currentUserNode && leader.uid === currentUserNode.uid) { document.getElementById('stickyPlayerRank').innerText = `#${r}`; document.getElementById('stickyPlayerPoints').innerText = leader.points || 0; const sa = document.getElementById('stickyPlayerAvatar'); if (leader.avatar) { sa.innerText = ''; sa.style.backgroundImage = `url('${leader.avatar}')`; } else sa.innerText = leader.name.charAt(0); }
+                    
+                    if(currentUserNode && leader.uid === currentUserNode.uid) { 
+                        document.getElementById('stickyPlayerRank').innerText = `#${r}`; 
+                        document.getElementById('stickyPlayerPoints').innerText = leader.points || 0; 
+                        const sa = document.getElementById('stickyPlayerAvatar'); 
+                        if (leader.avatar) { sa.innerText = ''; sa.style.backgroundImage = `url('${leader.avatar}')`; } 
+                        else sa.innerText = (leader.name || "ل").charAt(0); 
+                    }
                 });
             });
             const b = document.getElementById('leaderboardScreen'); b.style.display = 'flex'; setTimeout(() => b.classList.add('active'), 10);
         }
         function closeLeaderboardScreen() { const b = document.getElementById('leaderboardScreen'); b.classList.remove('active'); setTimeout(() => b.style.display = 'none', 400); }
-        function calculateGlobalRanking(uid, pts) { database.ref('users').orderByChild('points').once('value', (snap) => { let u = []; snap.forEach((c) => { u.push({ uid: c.key, points: c.val().points || 0 }); }); u.sort((a, b) => b.points - a.points); let idx = u.findIndex(x => x.uid === uid); document.getElementById('userGlobalRank').innerText = `#${idx !== -1 ? idx + 1 : '..'}`; }); }
+        
+        function calculateGlobalRanking(uid, pts) { 
+            database.ref('users').orderByChild('points').once('value', (snap) => { 
+                let u = []; 
+                snap.forEach((c) => { 
+                    if (c.exists() && c.val()) {
+                        u.push({ uid: c.key, points: c.val().points || 0 }); 
+                    }
+                }); 
+                u.sort((a, b) => b.points - a.points); 
+                let idx = u.findIndex(x => x.uid === uid); 
+                document.getElementById('userGlobalRank').innerText = `#${idx !== -1 ? idx + 1 : '..'}`; 
+            }); 
+        }
     </script>
 </body>
 </html>
