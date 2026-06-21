@@ -34,7 +34,12 @@
         @keyframes pulseGlow { 0% { box-shadow: 0 0 15px rgba(0, 242, 254, 0.2); } 50% { box-shadow: 0 0 30px rgba(0, 242, 254, 0.4); } 100% { box-shadow: 0 0 15px rgba(0, 242, 254, 0.2); } }
 
         .banned-screen { position: fixed; top:0; left:0; width:100%; height:100%; background:#050510; z-index:9999; display:none; flex-direction:column; justify-content:center; align-items:center; color:white; text-align:center; padding:24px; }
-        .banned-card { background:rgba(255,255,255,0.02); border: 2px solid var(--neon-pink); padding:40px; border-radius:32px; max-width:450px; box-shadow:0 0 30px rgba(255,0,127,0.2); }
+        .banned-card { background:rgba(255,255,255,0.02); border: 2px solid var(--neon-pink); padding:40px; border-radius:32px; max-width:450px; box-shadow:0 0 30px rgba(255,0,127,0.2); transition: var(--transition-smooth); }
+        .banned-card.deleted-style { border-color: #f59e0b; box-shadow: 0 0 30px rgba(245, 158, 11, 0.2); }
+        .help-click-link { display: inline-block; margin-top: 15px; color: var(--neon-cyan); text-decoration: underline; font-weight: 700; cursor: pointer; font-size: 15px; }
+        
+        .lobby-btn { display: inline-flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #050511; border: none; padding: 12px 24px; border-radius: 50px; font-weight: 700; font-size: 14px; cursor: pointer; margin-top: 20px; transition: var(--transition-bounce); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); }
+        .lobby-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5); }
 
         .login-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--login-bg-image); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 1000; transition: var(--transition-smooth); padding: 24px; }
         .login-container.hidden { opacity: 0; visibility: hidden; transform: translateY(-20px); }
@@ -58,7 +63,7 @@
         .name-input-group input:focus { border-color: #2563eb; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15); background: #ffffff; }
         
         .btn-name-submit { width: 100%; padding: 15px; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border: none; border-radius: 14px; color: white; font-size: 16px; font-weight: 700; cursor: pointer; transition: var(--transition-bounce); box-shadow: 0 6px 20px rgba(37, 99, 235, 0.25); }
-        .btn-name-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4); }
+        .btn-name-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(37, 99, 235, 0.4); }
 
         .dashboard { display: none; opacity: 0; height: 100vh; flex-direction: column; transition: var(--transition-smooth); }
         .dashboard.visible { display: flex; opacity: 1; }
@@ -239,13 +244,7 @@
 </head>
 <body>
 
-    <div class="banned-screen" id="bannedScreen">
-        <div class="banned-card">
-            <h1 style="color:var(--neon-pink); font-size:60px; margin-bottom:16px;">🚫</h1>
-            <h2 style="font-weight:700; margin-bottom:12px;">تم حظر حسابك بالكامل!</h2>
-            <p style="color:#94a3b8; font-size:14px; line-height:1.7; margin-bottom:24px;">لقد تم تجميد صلاحيات هذا الحساب من طرف الإدارة لمخالفتك شروط القوانين واللعب النظيف.</p>
-        </div>
-    </div>
+    <div class="banned-screen" id="bannedScreen"></div>
 
     <div class="login-container" id="loginPage">
         <div class="login-content-wrapper">
@@ -410,6 +409,8 @@
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
+        const MY_HELP_LINK = "https://your-help-link.com"; 
+
         let databaseQuestionsPool = []; 
         let activeEasyPool = []; 
         let activeMediumPool = []; 
@@ -432,22 +433,24 @@
             } 
         }
 
-        // فحص تلقائي عند فتح الصفحة
         function autoLoginCheck() {
-            const savedUid = localStorage.getItem('app_user_uid');
-            if (savedUid) {
-                currentUserNode = { uid: savedUid };
-                checkBanStatusAndListen(currentUserNode);
-            } else {
-                document.getElementById('dashboardPage').classList.remove('visible');
-                document.getElementById('dashboardPage').style.display = 'none';
-                document.getElementById('loginPage').style.display = 'flex';
+            if (localStorage.getItem('banned_forever') === 'true') {
+                showBannedScreenUI("ban");
+                return;
             }
+            
+            document.getElementById('dashboardPage').classList.remove('visible');
+            document.getElementById('dashboardPage').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'flex';
         }
         window.onload = autoLoginCheck;
 
-        // عند الضغط على بدأ اللعب
         function handleStartGameClick() {
+            if (localStorage.getItem('banned_forever') === 'true') {
+                showBannedScreenUI("ban");
+                return;
+            }
+
             const savedUid = localStorage.getItem('app_user_uid');
             if (savedUid) {
                 currentUserNode = { uid: savedUid };
@@ -460,8 +463,12 @@
         function openNameModal() { document.getElementById('nameModal').classList.add('open'); }
         function closeNameModal() { document.getElementById('nameModal').classList.remove('open'); }
         
-        // تسجيل سريع بالاسم فقط وتوليد ID تلقائي
         function handleQuickRegister() {
+            if (localStorage.getItem('banned_forever') === 'true') {
+                showBannedScreenUI("ban");
+                return;
+            }
+
             const user = document.getElementById('newPlayerName').value.trim();
 
             if (!user) { alert("الرجاء إدخال اسمك أولاً ⚠️"); return; }
@@ -492,21 +499,74 @@
             });
         }
 
+        // مراقبة الحظر، الحذف، وفك الحظر الحقيقي
         function checkBanStatusAndListen(user) {
-            database.ref('users/' + user.uid + '/banned').on('value', (snap) => {
-                if (snap.val() === true) { 
-                    document.getElementById('dashboardPage').style.display = 'none'; 
-                    document.getElementById('loginPage').style.display = 'none'; 
-                    document.getElementById('bannedScreen').style.display = 'flex'; 
-                    database.ref('users/' + user.uid + '/online').set(false); 
-                } else { 
-                    document.getElementById('bannedScreen').style.display = 'none'; 
-                    listenToUserData(user.uid); 
-                    setupPresenceSystem(user.uid); 
-                    fetchLiveQuestions(); 
-                    directToDashboard(); 
+            database.ref('users/' + user.uid).on('value', (snap) => {
+                const data = snap.val();
+                
+                // 1. إذا قام المشرف بحذف الحساب تماماً من قاعدة البيانات
+                if (!data) { 
+                    showBannedScreenUI("delete");
+                    currentUserNode = null;
+                    return;
                 }
+
+                // 2. إذا قام المشرف بحظر اللاعب
+                if (data.banned === true) { 
+                    localStorage.setItem('banned_forever', 'true'); 
+                    database.ref('users/' + user.uid + '/online').set(false);
+                    showBannedScreenUI("ban");
+                    localStorage.removeItem('app_user_uid'); 
+                    currentUserNode = null;
+                    return;
+                }
+
+                // 3. فك الحظر أو الحساب سليم: نغلق الشاشات وندخل ديريكت
+                document.getElementById('bannedScreen').style.display = 'none'; 
+                listenToUserData(user.uid); 
+                setupPresenceSystem(user.uid); 
+                fetchLiveQuestions(); 
+                directToDashboard(); 
             });
+        }
+
+        // بناء الواجهات ديناميكياً حسب تعديلاتك الأخيرة
+        function showBannedScreenUI(type) {
+            document.getElementById('dashboardPage').style.display = 'none'; 
+            document.getElementById('dashboardPage').classList.remove('visible');
+            document.getElementById('loginPage').style.display = 'none'; 
+            
+            const bannedScreen = document.getElementById('bannedScreen');
+            bannedScreen.style.display = 'flex';
+            
+            if (type === "ban") {
+                bannedScreen.innerHTML = `
+                    <div class="banned-card">
+                        <h1 style="color:var(--neon-pink); font-size:60px; margin-bottom:16px;">🚫</h1>
+                        <h2 style="font-weight:700; margin-bottom:12px;">تم حظر حسابك بالكامل!</h2>
+                        <p style="color:#94a3b8; font-size:14px; line-height:1.7; margin-bottom:14px;">لقد تم تجميد صلاحيات هذا الحساب من طرف الإدارة لمخالفتك شروط القوانين واللعب النظيف.</p>
+                        <span class="help-click-link" onclick="window.open('${MY_HELP_LINK}', '_blank')">مساعدة</span>
+                    </div>
+                `;
+            } else if (type === "delete") {
+                bannedScreen.innerHTML = `
+                    <div class="banned-card deleted-style">
+                        <h1 style="color:#f59e0b; font-size:60px; margin-bottom:16px;">🗑️</h1>
+                        <h2 style="font-weight:700; color: #f59e0b; margin-bottom:12px;">تم حذف حسابك بالكامل!</h2>
+                        <p style="color:#94a3b8; font-size:14px; line-height:1.7;">لقد تم إزالة بيانات هذا الحساب نهائياً من طرف الإدارة لمخالفتك شروط المنصة.</p>
+                        <button class="lobby-btn" onclick="resetPlayerToLobby()">الرجوع إلى الردهة 🎮</button>
+                        <br>
+                        <span class="help-click-link" onclick="window.open('${MY_HELP_LINK}', '_blank')">مساعدة</span>
+                    </div>
+                `;
+            }
+        }
+
+        // دالة تصفير اللاعب المحذوف وإرجاعه كـ لاعب جديد
+        function resetPlayerToLobby() {
+            localStorage.removeItem('app_user_uid');
+            document.getElementById('bannedScreen').style.display = 'none';
+            autoLoginCheck();
         }
 
         function setupPresenceSystem(uid) { const myConnectionsRef = database.ref('users/' + uid + '/online'); database.ref('.info/connected').on('value', (snap) => { if (snap.val() === true) { myConnectionsRef.set(true); myConnectionsRef.onDisconnect().set(false); } }); }
@@ -656,7 +716,6 @@
 
         function buyItemAction(name, price) { alert(`شراء: ${name}`); if (currentUserNode) { let qty = name.includes("30") ? 30 : (name.includes("80") ? 80 : 180); database.ref('users/' + currentUserNode.uid + '/hearts').set(globalDatabaseHearts + qty); } }
         
-        // خوارزمية فحص موحدة وتحديد سقف الإعلانات لـ 24 ساعة (بحد أقصى 10 إعلانات)
         function checkAndIncrementAdLimit() {
             const uid = currentUserNode.uid;
             const now = new Date().getTime();
@@ -664,7 +723,6 @@
             
             let adData = JSON.parse(localStorage.getItem('global_ad_limit_data_' + uid)) || { count: 0, firstAdTime: now };
             
-            // إذا مرت 24 ساعة، يتم ريست للعداد ويبدأ وقت الـ 24 ساعة الجديدة من الآن
             if (now - adData.firstAdTime > TWENTY_FOUR_HOURS_MS) {
                 adData.count = 0;
                 adData.firstAdTime = now;
@@ -683,7 +741,7 @@
 
         function getFreeHeartsByAdStore() {
             if (!currentUserNode) return;
-            if (!checkAndIncrementAdLimit()) return; // التحقق من الحد اليومي الموحد
+            if (!checkAndIncrementAdLimit()) return; 
             
             const uid = currentUserNode.uid;
             database.ref('users/' + uid + '/hearts').set(globalDatabaseHearts + 5);
@@ -724,7 +782,7 @@
             }
 
             let cq = targetPool.splice(0, 1)[0];
-            if (!cq || !cq.options) { loadNextQuestion(); return; } // تفادي الكراش إذا كان السطر مشوه ف فايرباز
+            if (!cq || !cq.options) { loadNextQuestion(); return; } 
             
             document.getElementById('questionNumLabel').innerText = `السكور الحالي: ${sessionScore} [مستوى: ${diffLabel}]`;
             document.getElementById('questionTextDisplay').innerText = cq.q || "سؤال بدون نص";
@@ -762,7 +820,7 @@
         
         function reviveWithAd() { 
             if (!currentUserNode) return;
-            if (!checkAndIncrementAdLimit()) return; // التحقق من الحد اليومي الموحد
+            if (!checkAndIncrementAdLimit()) return; 
             
             document.getElementById('reviveModal').classList.remove('open'); 
             loadNextQuestion(); 
@@ -782,7 +840,7 @@
                 l.sort((a, b) => (b.points || 0) - (a.points || 0));
                 
                 l.forEach((leader, idx) => {
-                    if (!leader || !leader.name) return; // حماية إضافية ضد الأسطر المشوهة
+                    if (!leader || !leader.name) return; 
                     const r = idx + 1; let rc = r===1?'rank-1':(r===2?'rank-2':(r===3?'rank-3':'')); const li = document.createElement('div'); li.className = 'leaderboard-item';
                     let av = leader.avatar ? `<div class="leaderboard-avatar" style="background-image: url('${leader.avatar}'); background-size: cover;"></div>` : `<div class="leaderboard-avatar">${(leader.name || "ل").charAt(0)}</div>`;
                     li.innerHTML = `<div class="player-info-side"><div class="rank-badge ${rc}">#${r}</div>${av}<span class="leaderboard-player-name">${leader.name}</span></div><div class="player-points-side"><span>${leader.points || 0}</span></div>`;
