@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>تحدي أساطير FF  </title>
+    <title>تحدي أساطير FF</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -73,14 +73,15 @@
         .menu-toggle { cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 10px; margin-right: -10px; z-index: 100; }
         .menu-toggle span { display: block; width: 24px; height: 3px; background-color: #ffffff; border-radius: 2px; }
 
-        .header-actions-left { display: flex; gap: 12px; }
-        .action-icon-btn { background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(8px); width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; transition: var(--transition-smooth); }
+        .header-actions-left { display: flex; gap: 10px; }
+        .action-icon-btn { background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(8px); width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; transition: var(--transition-smooth); font-size: 18px; }
         .action-icon-btn:hover { background: rgba(255, 255, 255, 0.3); transform: scale(1.05); }
         .action-icon-btn svg { width: 20px; height: 20px; fill: currentColor; }
 
         .header-profile-row { display: flex; align-items: center; gap: 18px; text-align: right; }
-        .large-avatar-wrapper { position: relative; width: 76px; height: 76px; min-width: 76px; min-height: 76px; cursor: pointer; }
-        .large-avatar { width: 100%; height: 100%; border-radius: 50%; background: #ff4a7a; border: 3px solid #ffffff; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 700; color: white; box-shadow: 0 6px 20px rgba(0,0,0,0.15); object-fit: cover; aspect-ratio: 1 / 1; transition: var(--transition-smooth); background-position: center; background-repeat: no-repeat; }
+        .large-avatar-wrapper { position: relative; width: 76px; height: 76px; min-width: 76px; min-height: 76px; cursor: pointer; border-radius: 50%; overflow: hidden; }
+        /* إصلاح ظهور الصورة بشكل دائري حقيقي ومملوء بالكامل */
+        .large-avatar { width: 100%; height: 100%; border-radius: 50%; background-color: #ff4a7a; border: 3px solid #ffffff; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 700; color: white; box-shadow: 0 6px 20px rgba(0,0,0,0.15); aspect-ratio: 1 / 1; transition: var(--transition-smooth); background-position: center; background-repeat: no-repeat; background-size: cover; overflow: hidden; }
 
         .user-meta-info { display: flex; flex-direction: column; gap: 6px; }
         .welcome-text { font-size: 22px; font-weight: 700; }
@@ -89,13 +90,15 @@
         .stat-badge svg { width: 14px; height: 14px; fill: #ffffff; }
 
         .dashboard-main-content { flex: 1; padding: 40px 24px; display: flex; flex-direction: column; align-items: center; overflow-y: auto; }
-        .action-buttons-container { width: 100%; max-width: 450px; display: flex; flex-direction: column; gap: 20px; }
+        .action-buttons-container { width: 100%; max-width: 450px; display: flex; flex-direction: column; gap: 16px; }
 
         .menu-action-btn { position: relative; width: 100%; padding: 18px 28px; border: none; border-radius: 20px; font-size: 17px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: var(--transition-bounce); }
         .btn-play { background: linear-gradient(135deg, #10b981 0%, #047857 100%); color: #ffffff; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.25); }
         .btn-play:hover { box-shadow: 0 14px 28px rgba(16, 185, 129, 0.4); transform: translateY(-4px); }
         .btn-leaderboard { background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); color: #1e293b; border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04); }
         .btn-leaderboard:hover { border-color: #cbd5e1; transform: translateY(-4px); box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08); }
+        .btn-share-main { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); color: #ffffff; box-shadow: 0 8px 20px rgba(139, 92, 246, 0.25); }
+        .btn-share-main:hover { box-shadow: 0 14px 28px rgba(139, 92, 246, 0.4); transform: translateY(-4px); }
         .btn-facebook { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); color: #ffffff; box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25); }
         .btn-facebook:hover { box-shadow: 0 14px 28px rgba(37, 99, 235, 0.4); transform: translateY(-4px); }
         
@@ -151,7 +154,7 @@
         .game-header { width: 100%; max-width: 480px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 10px; }
         .game-back-btn { width: 40px; height: 40px; border-radius: 50%; border: 2px solid rgba(0, 242, 254, 0.4); display: flex; align-items: center; justify-content: center; color: var(--neon-cyan); cursor: pointer; font-size: 20px; box-shadow: 0 0 10px rgba(0, 242, 254, 0.2); transition: var(--transition-smooth); flex-shrink: 0; }
         .game-back-btn:hover { background: rgba(0, 242, 254, 0.1); transform: rotate(180deg); }
-        .game-top-stats { display: flex; gap: 10px; flex-wrap: wrap; }
+        .game-top-stats { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
         .game-stat-box { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); padding: 6px 14px; border-radius: 14px; display: flex; align-items: center; gap: 8px; color: #ffffff; font-weight: 700; font-size: 13px; }
         .game-stat-box svg { width: 16px; height: 16px; }
 
@@ -177,12 +180,14 @@
         .revive-box { background: #111130; border: 2px solid var(--neon-purple); width: 100%; max-width: 420px; border-radius: 28px; padding: 36px 24px; text-align: center; box-shadow: 0 0 30px rgba(155, 81, 224, 0.3); transform: scale(0.8); transition: var(--transition-smooth); }
         .revive-modal.open .revive-box { transform: scale(1); }
         .revive-title { font-size: 24px; font-weight: 700; color: #ffffff; margin-bottom: 8px; }
-        .revive-desc { font-size: 14px; color: #a5a5cc; margin-bottom: 28px; }
-        .revive-actions-row { display: flex; gap: 14px; margin-bottom: 20px; }
-        .revive-btn { flex: 1; padding: 14px 16px; border-radius: 16px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; transition: var(--transition-bounce); }
+        .revive-desc { font-size: 14px; color: #a5a5cc; margin-bottom: 24px; }
+        .revive-actions-row { display: flex; gap: 12px; margin-bottom: 14px; }
+        .revive-btn { flex: 1; padding: 14px 12px; border-radius: 16px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; transition: var(--transition-bounce); }
         .btn-use-heart { background: linear-gradient(135deg, #ff007f 0%, #bc005b 100%); color: white; }
         .btn-watch-ad { background: linear-gradient(135deg, #00f2fe 0%, #0099a4 100%); color: #050515; }
-        .no-thanks-link { display: inline-block; color: #a5a5cc; font-size: 14px; font-weight: 600; text-decoration: underline; cursor: pointer; margin-top: 10px; }
+        .btn-share-score { width: 100%; padding: 12px; border-radius: 14px; background: rgba(139, 92, 246, 0.2); border: 1px solid #8b5cf6; color: #ddd6fe; font-size: 13px; font-weight: 700; cursor: pointer; margin-bottom: 14px; transition: var(--transition-smooth); display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-share-score:hover { background: #8b5cf6; color: #ffffff; }
+        .no-thanks-link { display: inline-block; color: #a5a5cc; font-size: 14px; font-weight: 600; text-decoration: underline; cursor: pointer; margin-top: 6px; }
 
         .leaderboard-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0f172a; background-image: radial-gradient(circle at top left, #1e293b 0%, #0f172a 100%); z-index: 1400; padding: 24px 24px 100px 24px; flex-direction: column; align-items: center; }
         .leaderboard-screen.active { display: flex; opacity: 1; }
@@ -196,7 +201,7 @@
         .rank-1 { background: linear-gradient(135deg, #ffd700 0%, #ffa000 100%); color: #000000; box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
         .rank-2 { background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%); color: #000000; }
         .rank-3 { background: linear-gradient(135deg, #cd7f32 0%, #8b4513 100%); color: #ffffff; }
-        .leaderboard-avatar { width: 40px; height: 40px; min-width: 40px; min-height: 40px; border-radius: 50%; background: #2a5298; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 16px; border: 2px solid rgba(255, 255, 255, 0.2); object-fit: cover; aspect-ratio: 1/1; background-position: center; background-repeat: no-repeat; }
+        .leaderboard-avatar { width: 40px; height: 40px; min-width: 40px; min-height: 40px; border-radius: 50%; background-color: #2a5298; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 16px; border: 2px solid rgba(255, 255, 255, 0.2); aspect-ratio: 1/1; background-position: center; background-repeat: no-repeat; background-size: cover; overflow: hidden; }
         .leaderboard-player-name { font-size: 15px; font-weight: 600; }
         .player-points-side { display: flex; align-items: center; gap: 6px; font-weight: 700; color: #ffca28; font-size: 15px; }
         .sticky-player-rank-card { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: calc(100% - 48px); max-width: 480px; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; color: white; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); z-index: 1450; transition: var(--transition-smooth); }
@@ -223,12 +228,31 @@
         .store-buy-btn { width: 100%; background: linear-gradient(180deg, #1f2937 0%, #111827 100%); color: white; border: 1px solid rgba(255,255,255,0.08); padding: 12px 6px; border-radius: 16px; font-size: 14px; font-weight: 700; cursor: pointer; transition: var(--transition-smooth); }
         .store-card:hover .store-buy-btn { background: linear-gradient(180deg, var(--neon-cyan) 0%, #0099a4 100%); color: #050515; border-color: transparent; box-shadow: 0 6px 15px rgba(0,242,254,0.3); font-weight: 800; }
 
+        /* نافذة الدفع وتفعيل الأكواد للويب (Chrome Checkout Modal) */
+        .checkout-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(4, 6, 18, 0.85); backdrop-filter: blur(14px); display: flex; justify-content: center; align-items: center; z-index: 2600; opacity: 0; visibility: hidden; transition: var(--transition-smooth); padding: 20px; }
+        .checkout-modal.open { opacity: 1; visibility: visible; }
+        .checkout-box { background: #0f172a; border: 1px solid rgba(0, 242, 254, 0.3); color: white; width: 100%; max-width: 420px; border-radius: 28px; padding: 28px 24px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); text-align: center; transform: scale(0.9); transition: var(--transition-smooth); }
+        .checkout-modal.open .checkout-box { transform: scale(1); }
+        .checkout-pack-badge { display: inline-block; background: rgba(0, 242, 254, 0.12); border: 1px solid var(--neon-cyan); color: var(--neon-cyan); padding: 6px 16px; border-radius: 20px; font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+        .checkout-btn-whatsapp { width: 100%; padding: 14px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 16px; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 18px; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25); transition: var(--transition-bounce); }
+        .checkout-btn-whatsapp:hover { transform: translateY(-2px); }
+        .promo-divider { font-size: 12px; color: #64748b; margin-bottom: 12px; position: relative; }
+        .promo-input-row { display: flex; gap: 8px; margin-bottom: 16px; }
+        .promo-input-row input { flex: 1; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: white; outline: none; font-size: 14px; text-align: center; font-weight: 700; letter-spacing: 1px; }
+        .promo-input-row button { padding: 12px 18px; border-radius: 12px; border: none; background: var(--neon-purple); color: white; font-weight: 700; cursor: pointer; font-size: 14px; }
+
+        /* نافذة إعلانات الويب (Chrome Web Ad Overlay) */
+        .web-ad-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.94); z-index: 5000; display: none; flex-direction: column; justify-content: center; align-items: center; padding: 20px; color: white; text-align: center; }
+        .web-ad-modal.open { display: flex; }
+        .web-ad-box { background: #111827; border: 2px solid var(--neon-cyan); border-radius: 24px; padding: 28px 20px; max-width: 400px; width: 100%; box-shadow: 0 0 35px rgba(0, 242, 254, 0.25); }
+        .web-ad-timer-badge { background: rgba(0, 242, 254, 0.15); color: var(--neon-cyan); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; display: inline-block; margin-bottom: 16px; }
+
         .edit-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); display: flex; justify-content: center; align-items: center; z-index: 2500; opacity: 0; visibility: hidden; transition: var(--transition-smooth); padding: 20px; }
         .edit-modal.open { opacity: 1; visibility: visible; }
         .edit-box { background: #ffffff; color: var(--text-main); width: 100%; max-width: 420px; border-radius: 28px; padding: 32px 28px; box-shadow: 0 24px 48px rgba(0,0,0,0.18); transform: scale(0.9); transition: var(--transition-smooth); }
-        .edit-avatar-preview-wrapper { position: relative; width: 90px; height: 90px; margin: 0 auto 24px auto; cursor: pointer; border-radius: 50%; overflow: hidden; }
-        .edit-preview-avatar { width: 90px; height: 90px; border-radius: 50%; background: #ff4a7a; border: 3px solid #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 700; color: white; background-position: center; background-repeat: no-repeat; background-size: cover; }
-        .upload-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 6px 0; background: rgba(0,0,0,0.55); color: white; font-size: 12px; font-weight: 700; text-align: center; }
+        .edit-avatar-preview-wrapper { position: relative; width: 96px; height: 96px; margin: 0 auto 24px auto; cursor: pointer; border-radius: 50%; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+        .edit-preview-avatar { width: 96px; height: 96px; border-radius: 50%; background-color: #ff4a7a; border: 3px solid #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 700; color: white; background-position: center; background-repeat: no-repeat; background-size: cover; overflow: hidden; }
+        .upload-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 6px 0; background: rgba(0,0,0,0.6); color: white; font-size: 12px; font-weight: 700; text-align: center; }
         .edit-input-group { text-align: right; margin-bottom: 20px; }
         .edit-input-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; }
         .edit-input-group input { width: 100%; padding: 13px 16px; background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; color: var(--text-main); outline: none; font-size: 15px; font-weight: 600; transition: var(--transition-smooth); }
@@ -249,24 +273,24 @@
     <div class="login-container" id="loginPage">
         <div class="login-content-wrapper">
             <div class="login-logo-wrapper">
-                <img src="https://i.postimg.cc/XYPCzyrh/IMG-20260618-132444.png" alt="My Logo" class="login-logo" onerror="this.src='https://ui-avatars.com/api/?name=Quiz&background=00f2fe&color=050515&size=120'">
+                <img src="https://i.postimg.cc/Kzdpw66C/file-000000004c988210b6ed2aff2955b82e.png" class="login-logo" onerror="this.src='https://ui-avatars.com/api/?name=Quiz&background=00f2fe&color=050515&size=120'">
             </div>
             <button class="start-playing-btn" onclick="handleStartGameClick()">
-                <span>ابدأ اللعب الآن</span>
+                <span>ابدأ اللعب  </span>
             </button>
         </div>
     </div>
 
     <div class="name-modal" id="nameModal">
         <div class="name-box">
-            <h3 style="margin-bottom: 10px; font-weight: 700; color: #1e3c72; font-size: 22px;">أهلاً بك أيها الأسطورة </h3>
-            <p style="color: #64748b; font-size: 14px; margin-bottom: 20px;">الرجاء إدخال اسمك</p>
+            <h3 style="margin-bottom: 10px; font-weight: 700; color: #1e3c72; font-size: 22px;">أهلاً بك ...، </h3>
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 20px;">الرجاء إدخال اسمك لحفظ حسابكـ  </p>
             
             <div class="name-input-group">
                 <label>اسم اللاعب</label>
-                <input type="text" id="newPlayerName" placeholder="مثال: Player_1">
+                <input type="text" id="newPlayerName" placeholder=" أكتب إسمك هنا:">
             </div>
-            <button class="btn-name-submit" onclick="handleQuickRegister()">تأكيد ودخول اللعبة </button>
+            <button class="btn-name-submit" onclick="handleQuickRegister()">تأكيد </button>
         </div>
     </div>
 
@@ -275,7 +299,8 @@
             <div class="header-top-row">
                 <div class="menu-toggle" onclick="toggleAppSidebar(true)"><span></span><span></span><span></span></div>
                 <div class="header-actions-left">
-                    <div class="action-icon-btn" onclick="openStoreScreen()"><svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg></div>
+                    <div class="action-icon-btn" id="soundToggleBtn" onclick="toggleSoundMute()" title="الصوت">🔊</div>
+                    <div class="action-icon-btn" onclick="openStoreScreen()" title="المتجر"><svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg></div>
                 </div>
             </div>
             <div class="header-profile-row">
@@ -296,6 +321,7 @@
             <div class="action-buttons-container">
                 <button class="menu-action-btn btn-play" onclick="triggerCountdownBeforeGame()"><span class="btn-text-wrapper"><span>ابدأ اللعب الآن</span></span><div class="btn-logo-wrapper"><svg viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H9v2H8v-2H6v-1h2V9h1v2h2v1zm4.5 1c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5S17.67 8 18.5 8s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></div></button>
                 <button class="menu-action-btn btn-leaderboard" onclick="openLeaderboardScreen()"><span class="btn-text-wrapper"><span>قائمة المتصدرين</span></span><div class="btn-logo-wrapper"><svg viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v3c0 2.55 1.92 4.63 4.39 4.94A5.98 5.98 0 0 0 11 16.9V19H9v2h6v-2h-2v-2.1c1.83-.37 3.25-1.74 3.61-3.5C19.08 13.03 21 10.95 21 8.4V5c0-1.1-.9-2-2-2zm-14 5V7h2v3c0 1.25-.8 2.31-1.85 2.7A1.97 1.97 0 0 1 5 10zm14 0c0 .94-.53 1.75-1.15 2.15C16.8 11.71 16 10.65 16 9.4V7h2v3z"/></svg></div></button>
+                <button class="menu-action-btn btn-share-main" onclick="sharePlayerScore(false)"><span class="btn-text-wrapper"><span>تحدى أصدقاءك (مشاركة)</span></span><div class="btn-logo-wrapper"><svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg></div></button>
                 <button class="menu-action-btn btn-facebook" onclick="window.open('https://facebook.com', '_blank')"><span class="btn-text-wrapper"><span>تابعنا على فيسبوك</span></span><div class="btn-logo-wrapper"><svg viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm13 5h-2.5C14.12 8 14 8.88 14 9.5V12h3v3h-3v7h-3v-7H9v-3h2V9.5C11 7.57 12.57 6 14.5 6H18v2z"/></svg></div></button>
             </div>
         </main>
@@ -303,30 +329,33 @@
 
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleAppSidebar(false)"></div>
     <div class="app-sidebar" id="appSidebar">
-        <div class="sidebar-header"><span class="sidebar-title">مركز الأمان والدعم ⚙️</span><div class="sidebar-close-btn" onclick="toggleAppSidebar(false)">✕</div></div>
+        <div class="sidebar-header"><span class="sidebar-title">مركز الأمان والدعم </span><div class="sidebar-close-btn" onclick="toggleAppSidebar(false)">✕</div></div>
         <div class="sidebar-content">
             <div class="policy-list-stack">
-                <div class="policy-row-btn active" onclick="switchPolicyPane(0, this)"><div class="btn-icon">❓</div><span>سياسة الخصوصية العامة</span></div>
-                <div class="policy-row-btn" onclick="switchPolicyPane(1, this)"><div class="btn-icon">📊</div><span>البيانات السحابية للمستخدم</span></div>
-                <div class="policy-row-btn" onclick="switchPolicyPane(2, this)"><div class="btn-icon">🔒</div><span>حماية الحساب والظهور</span></div>
-                <div class="policy-row-btn" onclick="switchPolicyPane(3, this)"><div class="btn-icon">📢</div><h4>الإعلانات وحق النسيان</h4></div>
+                <div class="policy-row-btn active" onclick="switchPolicyPane(0, this)"><div class="btn-icon"></div><span>سياسة الخصوصية العامة</span></div>
+                <div class="policy-row-btn" onclick="switchPolicyPane(1, this)"><div class="btn-icon"></div><span>البيانات السحابية للمستخدم</span></div>
+                <div class="policy-row-btn" onclick="switchPolicyPane(2, this)"><div class="btn-icon"></div><span>حماية الحساب والظهور</span></div>
+                <div class="policy-row-btn" onclick="switchPolicyPane(3, this)"><div class="btn-icon"></div><h4>الإعلانات وحق النسيان</h4></div>
             </div>
             <div class="policy-text-viewer" id="policyTextViewer">
-                <div class="policy-pane active"><h4>سياسة الخصوصية</h4><p>مرحباً بك في تحدي الأساطير الرقمي. نحن ملتزمون بحماية بياناتك وفقاً لمعايير متجر Google Play.</p></div>
-                <div class="policy-pane"><h4>1. البيانات والمزامنة السحابية</h4><p>يسحب السيرفر فقط اسمك العام، إيميلك، وصورتك الشخصية لإنشاء ملف سحابي آمن يحفظ مستواك ونقاط التحدي.</p></div>
+                <div class="policy-pane active"><h4>سياسة الخصوصية</h4><p>مرحباً بك في تحدي الأساطير الرقمي. نحن ملتزمون بحماية بياناتك وتوفير بيئة تنافسية عادلة.</p></div>
+                <div class="policy-pane"><h4>1. البيانات والمزامنة السحابية</h4><p>يتم حفظ اسمك العام وصورتك الرمزية ونقاطك في قاعدة بيانات سحابية مؤمنة لمزامنة ترتيبك العالمي.</p></div>
                 <div class="policy-pane"><h4>2. حماية معلوماتك وظهورها</h4><p>تظهر صورتك والسكور الخاص بك داخل قائمة المتصدرين العامة لتوفير تجربة تنافسية حية.</p></div>
-                <div class="policy-pane"><h4>3. الإعلانات وطلب حذف البيانات</h4><p>تمنحك المنصة الحق الكامل في تدمير حسابك وبياناتك نهائياً بضغطة زر واحدة.</p></div>
+                <div class="policy-pane"><h4>3. الإعلانات وطلب حذف البيانات</h4><p>تمنحك المنصة الحق الكامل في تدمير حسابك وبياناتك نهائياً بضغطة زر واحدة متى شئت.</p></div>
             </div>
-            <div class="sidebar-footer-zone"><button class="btn-delete-account" onclick="handleDeleteAccountAction()"><span>⚠️ حذف  الحساب</span></button></div>
+            <div class="sidebar-footer-zone"><button class="btn-delete-account" onclick="handleDeleteAccountAction()"><span>⚠️ حذف الحساب نهائياً</span></button></div>
         </div>
     </div>
 
-    <div class="countdown-overlay" id="countdownOverlay"><div class="countdown-number" id="countdownNum">3</div><div class="countdown-text">استعد للمواجهة... 🔥</div></div>
+    <div class="countdown-overlay" id="countdownOverlay"><div class="countdown-number" id="countdownNum">3</div><div class="countdown-text">استعد للمواجهة...</div></div>
 
     <div class="game-screen" id="gameScreen">
         <header class="game-header">
-            <div class="game-top-stats"><div class="game-stat-box score-box"><span style="color:#ffd700;"></span><span>النقاط الحالية: <strong id="gameScoreText">0</strong></span></div></div>
-            <div class="game-top-stats"><div class="game-stat-box hearts-box"><span style="color:var(--neon-pink);">❤️</span><span>: <strong id="gameHeartsText">..</strong></span></div><div class="game-back-btn" onclick="exitGameScreen()">❯</div></div>
+            <div class="game-top-stats"><div class="game-stat-box score-box"><span style="color:#ffd700;">⭐</span><span>النقاط الحالية: <strong id="gameScoreText">0</strong></span></div></div>
+            <div class="game-top-stats">
+                <div class="game-stat-box hearts-box"><span style="color:var(--neon-pink);">❤️</span><span>: <strong id="gameHeartsText">..</strong></span></div>
+                <div class="game-back-btn" onclick="exitGameScreen()">❯</div>
+            </div>
         </header>
         <div class="quiz-container">
             <div class="timer-wrapper"><div class="timer-bar" id="timerBar"></div></div>
@@ -338,41 +367,77 @@
     <div class="revive-modal" id="reviveModal">
         <div class="revive-box">
             <div class="revive-title" id="reviveTitleText">إجابة خاطئة! </div>
-            <div class="revive-desc">اختر وسيلة لإكمال التحدي:</div>
+            <div class="revive-desc">اختر وسيلة لإكمال التحدي أو شارك نتيجتك:</div>
             <div class="revive-actions-row">
                 <button class="revive-btn btn-use-heart" id="useHeartBtn" onclick="reviveWithHeart()"><span>استخدام قلب ❤️</span></button>
                 <button class="revive-btn btn-watch-ad" onclick="reviveWithAd()"><span>مشاهدة إعلان 📺</span></button>
             </div>
-            <div class="no-thanks-link" onclick="endGameAndSave()">لا شكراً، إنهاء الجولة</div>
+            <button class="btn-share-score" onclick="sharePlayerScore(true)">🚀 تحدى أصدقاءك بهذا السكور</button>
+            <div class="no-thanks-link" onclick="endGameAndSave()">لا شكراً، حفظ النقاط وإنهاء الجولة</div>
         </div>
     </div>
 
     <div class="leaderboard-screen" id="leaderboardScreen">
-        <header class="leaderboard-header"><div class="leaderboard-title">ترتيب اللاعبين  🏆</div><div class="game-back-btn" onclick="closeLeaderboardScreen()">❯</div></header>
+        <header class="leaderboard-header"><div class="leaderboard-title">ترتيب اللاعبين 🏆</div><div class="game-back-btn" onclick="closeLeaderboardScreen()">❯</div></header>
         <div class="leaderboard-list-container" id="leaderboardList"></div>
         <div class="sticky-player-rank-card" id="stickyPlayerCard">
             <div class="player-info-side">
                 <div class="rank-badge" id="stickyPlayerRank" style="background: rgba(255,255,255,0.2); color: white;">#..</div>
                 <div class="leaderboard-avatar" id="stickyPlayerAvatar">..</div>
-                <div class="leaderboard-player-name">أنت</div>
+                <div class="leaderboard-player-name" id="stickyPlayerName">أنت</div>
             </div>
             <div class="player-points-side"><span id="stickyPlayerPoints">0</span><span style="font-size: 11px; color: #10b981; font-weight: 600;">نقطة</span></div>
         </div>
     </div>
 
     <div class="store-screen" id="storeScreen">
-        <header class="store-header"><div class="store-title">متجر العناصر والميزات 🛒</div><div class="game-back-btn" onclick="closeStoreScreen()">❯</div></header>
+        <header class="store-header"><div class="store-title">المتجر </div><div class="game-back-btn" onclick="closeStoreScreen()">❯</div></header>
         <div class="store-shelf-container">
             <div class="shelf-category-title">القلوب المجانية (Free Rewards)</div>
             <div class="global-premium-grid single-item">
-                <div class="store-card" style="min-height: 180px;"><div class="item-main-qty" style="background: linear-gradient(135deg, #00f2fe, #9b51e0); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">5 قـلوب</div><div class="item-bonus-pct">شاهد فيديو قصير</div><div class="store-art-logo-wrapper" style="color: #ffca28; width: 44px; height: 44px;"><svg viewBox="0 0 24 24"><path d="M21 3H3c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zm-11 12V9l5 3-5 3z" fill="currentColor"/></svg></div><button class="store-buy-btn" onclick="getFreeHeartsByAdStore()">فيديو مجاني 📺</button></div>
+                <div class="store-card" style="min-height: 180px;">
+                    <div class="item-main-qty" style="background: linear-gradient(135deg, #00f2fe, #9b51e0); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">5 قـلوب</div>
+                    <div class="item-bonus-pct">شاهد إعلان قصير</div>
+                    <div class="store-art-logo-wrapper" style="color: #ffca28; width: 44px; height: 44px;"><svg viewBox="0 0 24 24"><path d="M21 3H3c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zm-11 12V9l5 3-5 3z" fill="currentColor"/></svg></div>
+                    <button class="store-buy-btn" onclick="getFreeHeartsByAdStore()">فيديو مجاني 📺</button>
+                </div>
             </div>
             <div class="shelf-category-title">شراء حزم القلوب (Hearts Pack)</div>
             <div class="global-premium-grid">
-                <div class="store-card"><div class="item-main-qty">30</div><div class="item-bonus-pct">الأساسية</div><div class="store-art-logo-wrapper" style="color: var(--neon-pink);"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/></svg></div><div class="red-bonus-badge">+50</div><button class="store-buy-btn" onclick="buyItemAction('30 قلب + 50 إضافي', '$1.99')">$1.99</button></div>
-                <div class="store-card" style="animation: pulseGlow 3s infinite;"><div class="red-bonus-badge" style="background: linear-gradient(135deg, #9b51e0 0%, #ff007f 100%);">الأكثر مبيعاً 🔥</div><div class="item-main-qty">80</div><div class="item-bonus-pct">وفر 15%</div><div class="store-art-logo-wrapper" style="color: var(--neon-cyan);"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/></svg></div><div class="red-bonus-badge" style="top:-10px;">+160</div><button class="store-buy-btn" onclick="buyItemAction('80 قلب + 160 إضافي', '$4.99')">$4.99</button></div>
-                <div class="store-card"><div class="item-main-qty">180</div><div class="item-bonus-pct">وفر 30%</div><div class="store-art-logo-wrapper" style="color: #ffca28;"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/></svg></div><div class="red-bonus-badge">+450</div><button class="store-buy-btn" onclick="buyItemAction('180 قلب + 450 إضافي', '$9.99')">$9.99</button></div>
+                <div class="store-card"><div class="item-main-qty">80</div><div class="item-bonus-pct">30 أساسية + 50 هدية</div><div class="store-art-logo-wrapper" style="color: var(--neon-pink);"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/></svg></div><div class="red-bonus-badge">+50 مجاناً</div><button class="store-buy-btn" onclick="openCheckoutModal('حزمة 80 قلب', 80, '$1.99 (20 DH)')">$1.99</button></div>
+                <div class="store-card" style="animation: pulseGlow 3s infinite;"><div class="red-bonus-badge" style="background: linear-gradient(135deg, #9b51e0 0%, #ff007f 100%);">الأكثر مبيعاً 🔥</div><div class="item-main-qty">240</div><div class="item-bonus-pct">80 أساسية + 160 هدية</div><div class="store-art-logo-wrapper" style="color: var(--neon-cyan);"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/></svg></div><button class="store-buy-btn" onclick="openCheckoutModal('حزمة 240 قلب', 240, '$4.99 (50 DH)')">$4.99</button></div>
+                <div class="store-card"><div class="item-main-qty">630</div><div class="item-bonus-pct">180 أساسية + 450 هدية</div><div class="store-art-logo-wrapper" style="color: #ffca28;"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/></svg></div><div class="red-bonus-badge">+450 مجاناً</div><button class="store-buy-btn" onclick="openCheckoutModal('حزمة 630 قلب', 630, '$9.99 (100 DH)')">$9.99</button></div>
             </div>
+        </div>
+    </div>
+
+    <!-- نافذة الدفع وتفعيل الأكواد (تمنع الشراء الوهمي وتشتغل على كروم) -->
+    <div class="checkout-modal" id="checkoutModal" onclick="closeCheckoutModal()">
+        <div class="checkout-box" onclick="event.stopPropagation()">
+            <h3 style="margin-bottom: 10px; font-size: 20px;">شحن القلوب الفوري ⚡</h3>
+            <div class="checkout-pack-badge" id="checkoutPackInfo">حزمة 80 قلب - $1.99</div>
+            <p style="font-size: 13px; color: #94a3b8; margin-bottom: 18px; line-height: 1.6;">اطلب كود الشحن الخاص بك عبر التواصل المباشر مع الإدارة أو أدخل كود التفعيل أدناه:</p>
+            
+            <button class="checkout-btn-whatsapp" onclick="requestPackViaSupport()">
+                <span>💬 شراء وطلب الكود الآن</span>
+            </button>
+
+            <div class="promo-divider">أو أدخل كود الشحن إذا كان لديك</div>
+            <div class="promo-input-row">
+                <input type="text" id="promoCodeInput" placeholder="أدخل كود التفعيل هنا">
+                <button onclick="redeemPromoCode()">تفعيل</button>
+            </div>
+            <button class="btn-cancel" style="width: 100%; background: rgba(255,255,255,0.08); color: #cbd5e1;" onclick="closeCheckoutModal()">إغلاق</button>
+        </div>
+    </div>
+
+    <!-- نافذة الإعلانات المدمجة لمتصفح Google Chrome -->
+    <div class="web-ad-modal" id="webAdModal">
+        <div class="web-ad-box">
+            <div class="web-ad-timer-badge" id="webAdTimerText">انتظر 5 ثوانٍ للحصول على المكافأة...</div>
+            <h3 style="margin-bottom: 10px; color: #fff;">إعلان ممول 📺</h3>
+            <p style="font-size: 13px; color: #94a3b8; margin-bottom: 20px; line-height: 1.6;">تحدي أساطير FF — نافس أصدقاءك وتصدر الترتيب العالمي الآن!</p>
+            <button id="webAdClaimBtn" class="start-playing-btn" style="width: 100%; font-size: 16px; padding: 14px; display: none;" onclick="finishWebAdReward()">استلام المكافأة الآن 🎁</button>
         </div>
     </div>
 
@@ -409,7 +474,9 @@
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        const MY_HELP_LINK = "https://your-help-link.com"; 
+        // ضع رابط حسابك أو واتساب للدعم والشراء هنا
+        const MY_HELP_LINK = "https://facebook.com"; 
+        const QUESTION_TIME_MS = 9000; // 9 ثوانٍ لكل سؤال
 
         let databaseQuestionsPool = []; 
         let activeEasyPool = []; 
@@ -417,8 +484,85 @@
         let activeHardPool = [];
         
         let currentUserNode = null; 
-        let sessionScore = 0; let globalDatabaseHearts = 5; 
-        let timerInterval = null; let isAnswered = false; let uploadedImgBase64 = null;
+        let currentUserDataCache = { name: "لاعب", points: 0, avatar: "", rank: ".." };
+        let sessionScore = 0; 
+        let globalDatabaseHearts = 5; 
+        let timerInterval = null; 
+        let isAnswered = false; 
+        let uploadedImgBase64 = null;
+        let selectedCheckoutPack = null;
+
+        // ==================== محرك المؤثرات الصوتية الخفيف (Web Audio API) ====================
+        let soundMuted = localStorage.getItem('ff_quiz_muted') === 'true';
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (AudioContext) audioCtx = new AudioContext();
+            }
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function playSoundEffect(type) {
+            if (soundMuted) return;
+            try {
+                initAudio();
+                if (!audioCtx) return;
+                const now = audioCtx.currentTime;
+
+                if (type === 'click') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(600, now);
+                    osc.frequency.exponentialRampToValueAtTime(300, now + 0.06);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.06);
+                    osc.connect(gain); gain.connect(audioCtx.destination);
+                    osc.start(now); osc.stop(now + 0.06);
+                } else if (type === 'correct') {
+                    [523.25, 659.25, 783.99, 1046.5].forEach((freq, idx) => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.07);
+                        gain.gain.setValueAtTime(0.18, now + idx * 0.07);
+                        gain.gain.exponentialRampToValueAtTime(0.008, now + idx * 0.07 + 0.22);
+                        osc.connect(gain); gain.connect(audioCtx.destination);
+                        osc.start(now + idx * 0.07); osc.stop(now + idx * 0.07 + 0.22);
+                    });
+                } else if (type === 'wrong') {
+                    [220, 165].forEach((freq, idx) => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = 'sawtooth';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.14);
+                        gain.gain.setValueAtTime(0.15, now + idx * 0.14);
+                        gain.gain.exponentialRampToValueAtTime(0.008, now + idx * 0.14 + 0.25);
+                        osc.connect(gain); gain.connect(audioCtx.destination);
+                        osc.start(now + idx * 0.14); osc.stop(now + idx * 0.14 + 0.25);
+                    });
+                } else if (type === 'tick') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(880, now);
+                    gain.gain.setValueAtTime(0.07, now);
+                    gain.gain.exponentialRampToValueAtTime(0.005, now + 0.04);
+                    osc.connect(gain); gain.connect(audioCtx.destination);
+                    osc.start(now); osc.stop(now + 0.04);
+                }
+            } catch (e) {}
+        }
+
+        function toggleSoundMute() {
+            soundMuted = !soundMuted;
+            localStorage.setItem('ff_quiz_muted', soundMuted);
+            document.getElementById('soundToggleBtn').innerText = soundMuted ? '🔇' : '🔊';
+            if (!soundMuted) playSoundEffect('click');
+        }
+        // =================================================================================
 
         function shuffleArray(array) { const arr = [...array]; for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
         
@@ -434,10 +578,9 @@
         }
 
         function autoLoginCheck() {
-            if (localStorage.getItem('banned_forever') === 'true') {
-                showBannedScreenUI("ban");
-                return;
-            }
+            // إزالة الاعتماد على banned_forever المحلي لكي يعمل فك الحظر الفوري من الأدمن
+            localStorage.removeItem('banned_forever');
+            document.getElementById('soundToggleBtn').innerText = soundMuted ? '🔇' : '🔊';
             
             document.getElementById('dashboardPage').classList.remove('visible');
             document.getElementById('dashboardPage').style.display = 'none';
@@ -446,11 +589,7 @@
         window.onload = autoLoginCheck;
 
         function handleStartGameClick() {
-            if (localStorage.getItem('banned_forever') === 'true') {
-                showBannedScreenUI("ban");
-                return;
-            }
-
+            playSoundEffect('click');
             const savedUid = localStorage.getItem('app_user_uid');
             if (savedUid) {
                 currentUserNode = { uid: savedUid };
@@ -464,11 +603,7 @@
         function closeNameModal() { document.getElementById('nameModal').classList.remove('open'); }
         
         function handleQuickRegister() {
-            if (localStorage.getItem('banned_forever') === 'true') {
-                showBannedScreenUI("ban");
-                return;
-            }
-
+            playSoundEffect('click');
             const user = document.getElementById('newPlayerName').value.trim();
 
             if (!user) { alert("الرجاء إدخال اسمك أولاً ⚠️"); return; }
@@ -499,29 +634,25 @@
             });
         }
 
-        // مراقبة الحظر، الحذف، وفك الحظر الحقيقي
+        // مراقبة الحظر، الحذف، وفك الحظر الفوري بدون قفل المتصفح للأبد
         function checkBanStatusAndListen(user) {
             database.ref('users/' + user.uid).on('value', (snap) => {
                 const data = snap.val();
                 
-                // 1. إذا قام المشرف بحذف الحساب تماماً من قاعدة البيانات
+                // 1. إذا قام المشرف بحذف الحساب تماماً
                 if (!data) { 
                     showBannedScreenUI("delete");
-                    currentUserNode = null;
                     return;
                 }
 
-                // 2. إذا قام المشرف بحظر اللاعب
+                // 2. إذا قام المشرف بحظر اللاعب (نحتفظ بـ uid لكي يفتح تلقائياً عند فك الحظر)
                 if (data.banned === true) { 
-                    localStorage.setItem('banned_forever', 'true'); 
                     database.ref('users/' + user.uid + '/online').set(false);
                     showBannedScreenUI("ban");
-                    localStorage.removeItem('app_user_uid'); 
-                    currentUserNode = null;
                     return;
                 }
 
-                // 3. فك الحظر أو الحساب سليم: نغلق الشاشات وندخل ديريكت
+                // 3. الحساب سليم أو تم فك الحظر عنه للتو
                 document.getElementById('bannedScreen').style.display = 'none'; 
                 listenToUserData(user.uid); 
                 setupPresenceSystem(user.uid); 
@@ -530,7 +661,6 @@
             });
         }
 
-        // بناء الواجهات ديناميكياً حسب تعديلاتك الأخيرة
         function showBannedScreenUI(type) {
             document.getElementById('dashboardPage').style.display = 'none'; 
             document.getElementById('dashboardPage').classList.remove('visible');
@@ -543,18 +673,18 @@
                 bannedScreen.innerHTML = `
                     <div class="banned-card">
                         <h1 style="color:var(--neon-pink); font-size:60px; margin-bottom:16px;">🚫</h1>
-                        <h2 style="font-weight:700; margin-bottom:12px;">تم حظر حسابك بالكامل!</h2>
-                        <p style="color:#94a3b8; font-size:14px; line-height:1.7; margin-bottom:14px;">لقد تم تجميد صلاحيات هذا الحساب من طرف الإدارة لمخالفتك شروط القوانين واللعب النظيف.</p>
-                        <span class="help-click-link" onclick="window.open('${MY_HELP_LINK}', '_blank')">مساعدة</span>
+                        <h2 style="font-weight:700; margin-bottom:12px;">تم حظر حسابك مؤقتاً!</h2>
+                        <p style="color:#94a3b8; font-size:14px; line-height:1.7; margin-bottom:14px;">لقد تم تجميد صلاحيات هذا الحساب من طرف الإدارة. إذا تم رفع الحظر عنك ستفتح اللعبة تلقائياً.</p>
+                        <span class="help-click-link" onclick="window.open('${MY_HELP_LINK}', '_blank')">التواصل مع الدعم والمساعدة</span>
                     </div>
                 `;
             } else if (type === "delete") {
                 bannedScreen.innerHTML = `
                     <div class="banned-card deleted-style">
                         <h1 style="color:#f59e0b; font-size:60px; margin-bottom:16px;">🗑️</h1>
-                        <h2 style="font-weight:700; color: #f59e0b; margin-bottom:12px;">تم حذف حسابك بالكامل!</h2>
-                        <p style="color:#94a3b8; font-size:14px; line-height:1.7;">لقد تم إزالة بيانات هذا الحساب نهائياً من طرف الإدارة لمخالفتك شروط المنصة.</p>
-                        <button class="lobby-btn" onclick="resetPlayerToLobby()">الرجوع إلى الردهة 🎮</button>
+                        <h2 style="font-weight:700; color: #f59e0b; margin-bottom:12px;">تم حذف هذا الحساب!</h2>
+                        <p style="color:#94a3b8; font-size:14px; line-height:1.7;">لقد تم إزالة بيانات هذا الحساب نهائياً من السيرفر.</p>
+                        <button class="lobby-btn" onclick="resetPlayerToLobby()">تسجيل حساب جديد 🎮</button>
                         <br>
                         <span class="help-click-link" onclick="window.open('${MY_HELP_LINK}', '_blank')">مساعدة</span>
                     </div>
@@ -562,33 +692,65 @@
             }
         }
 
-        // دالة تصفير اللاعب المحذوف وإرجاعه كـ لاعب جديد
         function resetPlayerToLobby() {
             localStorage.removeItem('app_user_uid');
+            currentUserNode = null;
             document.getElementById('bannedScreen').style.display = 'none';
             autoLoginCheck();
         }
 
-        function setupPresenceSystem(uid) { const myConnectionsRef = database.ref('users/' + uid + '/online'); database.ref('.info/connected').on('value', (snap) => { if (snap.val() === true) { myConnectionsRef.set(true); myConnectionsRef.onDisconnect().set(false); } }); }
+        function setupPresenceSystem(uid) {
+            const myConnectionsRef = database.ref('users/' + uid + '/online');
+            database.ref('.info/connected').on('value', (snap) => {
+                if (snap.val() === true) {
+                    myConnectionsRef.set(true);
+                    myConnectionsRef.onDisconnect().set(false);
+                }
+            });
+        }
+
+        function applyAvatarToElement(el, avatarUrl, fallbackName) {
+            if (!el) return;
+            if (avatarUrl) {
+                el.innerText = '';
+                el.style.backgroundImage = `url('${avatarUrl}')`;
+                el.style.backgroundSize = 'cover';
+                el.style.backgroundPosition = 'center';
+            } else {
+                const fl = (fallbackName || "ل").charAt(0);
+                el.style.backgroundImage = 'none';
+                el.innerText = fl;
+            }
+        }
 
         function listenToUserData(uid) {
             database.ref('users/' + uid).on('value', (snapshot) => {
                 let data = snapshot.val();
                 if (!data) return;
                 globalDatabaseHearts = data.hearts !== undefined ? data.hearts : 5;
-                document.getElementById('headerName').innerText = data.name || "لاعب جديد";
-                document.getElementById('badgePoints').innerText = data.points || 0;
-                document.getElementById('editNameInput').value = data.name || "لاعب جديد";
-                const hAvatar = document.getElementById('headerAvatar'); const pAvatar = document.getElementById('editPreviewAvatar');
-                if (data.avatar) { hAvatar.innerText = ''; hAvatar.style.backgroundImage = `url('${data.avatar}')`; pAvatar.innerText = ''; pAvatar.style.backgroundImage = `url('${data.avatar}')`; }
-                else { let fl = (data.name || "ل").charAt(0); hAvatar.style.backgroundImage = 'none'; hAvatar.innerText = fl; pAvatar.style.backgroundImage = 'none'; pAvatar.innerText = fl; }
-                calculateGlobalRanking(uid, data.points || 0);
+                currentUserDataCache.name = data.name || "لاعب جديد";
+                currentUserDataCache.points = data.points || 0;
+                currentUserDataCache.avatar = data.avatar || "";
+
+                document.getElementById('headerName').innerText = currentUserDataCache.name;
+                document.getElementById('badgePoints').innerText = currentUserDataCache.points;
+                document.getElementById('editNameInput').value = currentUserDataCache.name;
+
+                applyAvatarToElement(document.getElementById('headerAvatar'), data.avatar, data.name);
+                applyAvatarToElement(document.getElementById('editPreviewAvatar'), data.avatar, data.name);
+                calculateGlobalRanking(uid);
             });
         }
 
-        function fetchLiveQuestions() { database.ref('questions').on('value', (snap) => { const data = snap.val(); if (data) databaseQuestionsPool = Object.values(data); }); }
+        function fetchLiveQuestions() {
+            database.ref('questions').on('value', (snap) => {
+                const data = snap.val();
+                if (data) databaseQuestionsPool = Object.values(data);
+            });
+        }
         
         function toggleAppSidebar(isOpen) { 
+            playSoundEffect('click');
             const sb = document.getElementById('appSidebar'); 
             const ol = document.getElementById('sidebarOverlay'); 
             if(isOpen) { 
@@ -600,14 +762,30 @@
             } 
         }
         
-        function switchPolicyPane(index, btn) { const panes = document.querySelectorAll('.policy-pane'); panes.forEach(p => p.classList.remove('active')); const buttons = document.querySelectorAll('.policy-row-btn'); buttons.forEach(b => b.classList.remove('active')); if(panes[index]) panes[index].classList.add('active'); if(btn) btn.classList.add('active'); }
+        function switchPolicyPane(index, btn) {
+            playSoundEffect('click');
+            const panes = document.querySelectorAll('.policy-pane'); panes.forEach(p => p.classList.remove('active'));
+            const buttons = document.querySelectorAll('.policy-row-btn'); buttons.forEach(b => b.classList.remove('active'));
+            if(panes[index]) panes[index].classList.add('active');
+            if(btn) btn.classList.add('active');
+        }
 
-        function handleDeleteAccountAction() { if (!currentUserNode) return; if (confirm("⚠️ حذف نهائي للحساب؟")) { database.ref('users/' + currentUserNode.uid).remove().then(() => { localStorage.removeItem('app_user_uid'); location.reload(); }); } }
+        function handleDeleteAccountAction() {
+            if (!currentUserNode) return;
+            if (confirm("⚠️ هل أنت متأكد من حذف حسابك ونقاطك نهائياً؟")) {
+                database.ref('users/' + currentUserNode.uid).remove().then(() => {
+                    localStorage.removeItem('app_user_uid');
+                    location.reload();
+                });
+            }
+        }
         
-        function openStoreScreen() { const s = document.getElementById('storeScreen'); s.style.display = 'flex'; setTimeout(() => s.classList.add('active'), 10); }
-        function closeStoreScreen() { const s = document.getElementById('storeScreen'); s.classList.remove('active'); setTimeout(() => s.style.display = 'none', 400); }
+        function openStoreScreen() { playSoundEffect('click'); const s = document.getElementById('storeScreen'); s.style.display = 'flex'; setTimeout(() => s.classList.add('active'), 10); }
+        function closeStoreScreen() { playSoundEffect('click'); const s = document.getElementById('storeScreen'); s.classList.remove('active'); setTimeout(() => s.style.display = 'none', 400); }
 
         function openEditModal() {
+            if (!currentUserNode) return;
+            playSoundEffect('click');
             const uid = currentUserNode.uid; const now = new Date().getTime(); 
             const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
             const ni = document.getElementById('editNameInput'); const nn = document.getElementById('nameLockNotice');
@@ -644,6 +822,7 @@
         
         function closeEditModal() { document.getElementById('editModal').classList.remove('open'); uploadedImgBase64 = null; }
         
+        // قص الصورة بشكل دائري من المنتصف بجودة عالية (160x160) وحجم خفيف جداً (~5KB)
         function previewImage(e) { 
             const file = e.target.files[0]; 
             if (file) { 
@@ -651,14 +830,36 @@
                 r.onload = function(evt) { 
                     const img = new Image();
                     img.onload = function() {
+                        const size = 160;
                         const canvas = document.createElement('canvas');
-                        canvas.width = 44;
-                        canvas.height = 44;
+                        canvas.width = size;
+                        canvas.height = size;
                         const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, 44, 44);
-                        uploadedImgBase64 = canvas.toDataURL('image/jpeg', 0.7); 
-                        const pa = document.getElementById('editPreviewAvatar'); 
-                        pa.innerText = ''; pa.style.backgroundImage = `url('${uploadedImgBase64}')`; 
+
+                        // حساب المربع الأوسط من الصورة لكي لا تتمدد أو تظهر مستطيلة
+                        const minSide = Math.min(img.width, img.height);
+                        const sx = (img.width - minSide) / 2;
+                        const sy = (img.height - minSide) / 2;
+
+                        // قص دائري كامل داخل الـ Canvas
+                        ctx.clearRect(0, 0, size, size);
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2, true);
+                        ctx.closePath();
+                        ctx.clip();
+
+                        ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, size, size);
+                        ctx.restore();
+
+                        // ضغط WebP خفيف وعالي الجودة (مع fallback لـ JPEG)
+                        let dataUrl = canvas.toDataURL('image/webp', 0.75);
+                        if (dataUrl.indexOf('data:image/webp') !== 0) {
+                            dataUrl = canvas.toDataURL('image/jpeg', 0.75);
+                        }
+
+                        uploadedImgBase64 = dataUrl; 
+                        applyAvatarToElement(document.getElementById('editPreviewAvatar'), uploadedImgBase64, '');
                     };
                     img.src = evt.target.result;
                 }; 
@@ -680,6 +881,7 @@
                 let avatarChanged = uploadedImgBase64 !== null;
 
                 if (nameChanged) {
+                    if (un.length < 3) { alert("يجب أن يكون الاسم من 3 أحرف فأكثر ⚠️"); btnSave.disabled = false; btnSave.innerText = "حفظ التعديلات"; return; }
                     const ln = data.last_name_change || 0;
                     if (ln && (now - parseInt(ln) < SEVEN_DAYS_MS)) { alert("الاسم مقفل حالياً."); btnSave.disabled = false; btnSave.innerText = "حفظ التعديلات"; return; }
                     database.ref('users').orderByChild('name').equalTo(un).once('value', (chkSnap) => {
@@ -698,6 +900,7 @@
         }
 
         function completeProfileSave(uid, ups, avatarChanged, data, now, btnSave) {
+            const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
             if (avatarChanged) {
                 const la = data.last_avatar_change || 0;
                 if (la && (now - parseInt(la) < SEVEN_DAYS_MS)) { alert("الصورة مقفلة حالياً."); btnSave.disabled = false; btnSave.innerText = "حفظ التعديلات"; return; }
@@ -712,11 +915,70 @@
             }
         }
 
-        document.addEventListener("DOMContentLoaded", () => { document.getElementById('editAvatarWrapper').addEventListener('click', () => { if (document.getElementById('editAvatarWrapper').style.pointerEvents !== 'none') document.getElementById('fileInput').click(); }); });
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('editAvatarWrapper').addEventListener('click', () => {
+                if (document.getElementById('editAvatarWrapper').style.pointerEvents !== 'none') document.getElementById('fileInput').click();
+            });
+        });
 
-        function buyItemAction(name, price) { alert(`شراء: ${name}`); if (currentUserNode) { let qty = name.includes("30") ? 30 : (name.includes("80") ? 80 : 180); database.ref('users/' + currentUserNode.uid + '/hearts').set(globalDatabaseHearts + qty); } }
-        
+        // ==================== نظام المتجر والدفع وتفعيل الأكواد (بديل الشراء الوهمي) ====================
+        function openCheckoutModal(packName, heartsQty, priceLabel) {
+            playSoundEffect('click');
+            selectedCheckoutPack = { packName, heartsQty, priceLabel };
+            document.getElementById('checkoutPackInfo').innerText = `${packName} (${heartsQty} ❤️) - ${priceLabel}`;
+            document.getElementById('promoCodeInput').value = '';
+            document.getElementById('checkoutModal').classList.add('open');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.remove('open');
+        }
+
+        function requestPackViaSupport() {
+            if (!currentUserNode || !selectedCheckoutPack) return;
+            const msg = `مرحباً، أريد شراء [${selectedCheckoutPack.packName} - ${selectedCheckoutPack.priceLabel}] في لعبة تحدي أساطير FF.\nاسم اللاعب: ${currentUserDataCache.name}\nمعرف الحساب: ${currentUserNode.uid}`;
+            const shareUrl = `https://wa.me/212783764620?text=${encodeURIComponent(msg)}`;
+            window.open(shareUrl, '_blank');
+        }
+
+        function redeemPromoCode() {
+            if (!currentUserNode) return;
+            const code = document.getElementById('promoCodeInput').value.trim().toUpperCase();
+            if (!code) { alert("الرجاء إدخال كود التفعيل أولاً ⚠️"); return; }
+
+            database.ref('promo_codes/' + code).once('value', (snap) => {
+                const codeData = snap.val();
+                if (!codeData || codeData.used === true) {
+                    playSoundEffect('wrong');
+                    alert("هذا الكود غير صالح أو تم استخدامه مسبقاً ❌");
+                    return;
+                }
+                const rewardHearts = parseInt(codeData.hearts) || (selectedCheckoutPack ? selectedCheckoutPack.heartsQty : 50);
+                database.ref('promo_codes/' + code).update({ used: true, usedBy: currentUserNode.uid, usedAt: Date.now() });
+                database.ref('users/' + currentUserNode.uid + '/hearts').set(globalDatabaseHearts + rewardHearts).then(() => {
+                    playSoundEffect('correct');
+                    alert(`🎉 مبروك! تم شحن حسابك بـ ${rewardHearts} قلب بنجاح!`);
+                    closeCheckoutModal();
+                });
+            });
+        }
+
+        // ==================== نظام الإعلانات المزدوج (Web Chrome + WebToApp APK) ====================
+        let currentAdCallback = null;
+        let webAdCountdownInterval = null;
+
+        function isNativeRewardedAdAvailable() {
+            return /wv|WebView/i.test(navigator.userAgent) || window.Android !== undefined;
+        }
+
         function checkAndIncrementAdLimit() {
+            // AdMob Rewarded Ads لا تعمل مباشرة داخل صفحة ويب عادية.
+            // لا نستهلك حصة اللاعب ولا نمنحه مكافأة وهمية في المتصفح.
+            if (!isNativeRewardedAdAvailable()) {
+                alert("لا توجد إعلانات في الوقت الحالي");
+                return false;
+            }
+
             const uid = currentUserNode.uid;
             const now = new Date().getTime();
             const TWENTY_FOUR_HOURS_MS = 24 * 60 * 60 * 1000;
@@ -739,27 +1001,147 @@
             return true;
         }
 
+        function runHybridRewardedAd(onSuccess) {
+            // لا نعطي المكافأة عبر مؤقت وهمي في المتصفح.
+            // نسخة الويب تحتاج مزود إعلانات ويب فعلياً (مثل Google Ad Manager مع GPT).
+            if (!isNativeRewardedAdAvailable()) {
+                currentAdCallback = null;
+                alert("لا توجد إعلانات في الوقت الحالي");
+                return;
+            }
+
+            currentAdCallback = onSuccess;
+
+            // داخل تطبيق WebView: يجب أن يعرض التطبيق إعلان AdMob Rewarded الأصلي.
+            // يجب على التطبيق استدعاء onRewardedAdCompleted فقط من حدث
+            // OnUserEarnedReward بعد تأكيد SDK لاستحقاق المكافأة.
+            try {
+                window.location.href = "js2app://show_rewarded_ad";
+            } catch (error) {
+                currentAdCallback = null;
+                alert("تعذر تشغيل الإعلان. حاول مرة أخرى.");
+            }
+        }
+
+        window.onRewardedAdCompleted = function() {
+            if (currentAdCallback) {
+                playSoundEffect('correct');
+                currentAdCallback();
+                currentAdCallback = null;
+            }
+        };
+
+        function openChromeWebAdModal() {
+            const modal = document.getElementById('webAdModal');
+            const timerTxt = document.getElementById('webAdTimerText');
+            const claimBtn = document.getElementById('webAdClaimBtn');
+            let sec = 5;
+
+            claimBtn.style.display = 'none';
+            timerTxt.innerText = `انتظر ${sec} ثوانٍ للحصول على المكافأة... ⏳`;
+            modal.classList.add('open');
+
+            clearInterval(webAdCountdownInterval);
+            webAdCountdownInterval = setInterval(() => {
+                sec--;
+                if (sec > 0) {
+                    timerTxt.innerText = `انتظر ${sec} ثوانٍ للحصول على المكافأة... ⏳`;
+                } else {
+                    clearInterval(webAdCountdownInterval);
+                    timerTxt.innerText = `اكتمل العرض الإعلاني بنجاح! ✅`;
+                    claimBtn.style.display = 'flex';
+                }
+            }, 1000);
+        }
+
+        function finishWebAdReward() {
+            document.getElementById('webAdModal').classList.remove('open');
+            window.onRewardedAdCompleted();
+        }
+
         function getFreeHeartsByAdStore() {
             if (!currentUserNode) return;
             if (!checkAndIncrementAdLimit()) return; 
             
-            const uid = currentUserNode.uid;
-            database.ref('users/' + uid + '/hearts').set(globalDatabaseHearts + 5);
+            runHybridRewardedAd(function() {
+                const uid = currentUserNode.uid;
+                database.ref('users/' + uid + '/hearts').set(globalDatabaseHearts + 5);
+                alert("تمت مكافأتك بـ 5 قلوب مجانية بنجاح! ❤️");
+            });
         }
 
+        function reviveWithAd() { 
+            if (!currentUserNode) return;
+            if (!checkAndIncrementAdLimit()) return; 
+            
+            runHybridRewardedAd(function() {
+                document.getElementById('reviveModal').classList.remove('open'); 
+                loadNextQuestion(); 
+            });
+        }
+        // =========================================================================
+
+        // ==================== مشاركة السكور وتحدي الأصدقاء ====================
+        function sharePlayerScore(isSessionScore) {
+            playSoundEffect('click');
+            const scoreToShare = isSessionScore ? sessionScore : (currentUserDataCache.points || 0);
+            const shareText = `🔥 حققت ${scoreToShare} نقطة في لعبة "تحدي أساطير FF"! الترتيب العالمي ديالي هو #${currentUserDataCache.rank}. واش تقدر تحطم الرقم ديالي؟ العب الآن:`;
+            const shareUrl = window.location.href;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'تحدي أساطير FF',
+                    text: shareText,
+                    url: shareUrl
+                }).catch(() => {});
+            } else {
+                const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + " " + shareUrl)}`;
+                window.open(waUrl, '_blank');
+            }
+        }
+
+        // ==================== منطق اللعب والعداد التنازلي (9 ثوانٍ) ====================
         function triggerCountdownBeforeGame() {
-            if (databaseQuestionsPool.length === 0) { alert("جاري تحميل الأسئلة..."); return; }
+            if (databaseQuestionsPool.length === 0) { alert("جاري تحميل الأسئلة من السيرفر..."); return; }
+            playSoundEffect('click');
+
             activeEasyPool = shuffleArray(databaseQuestionsPool.filter(q => q && (q.difficulty === 'easy' || !q.difficulty)));
             activeMediumPool = shuffleArray(databaseQuestionsPool.filter(q => q && q.difficulty === 'medium'));
             activeHardPool = shuffleArray(databaseQuestionsPool.filter(q => q && q.difficulty === 'hard'));
 
             const ol = document.getElementById('countdownOverlay'); const nd = document.getElementById('countdownNum');
             let c = 3; ol.style.display = 'flex'; setTimeout(() => ol.classList.add('active'), 10); nd.innerText = c;
-            const iv = setInterval(() => { c--; if (c > 0) nd.innerText = c; else { clearInterval(iv); ol.classList.remove('active'); setTimeout(() => { ol.style.display = 'none'; startQuizGame(); }, 300); } }, 1000);
+            playSoundEffect('tick');
+
+            const iv = setInterval(() => {
+                c--;
+                if (c > 0) {
+                    nd.innerText = c;
+                    playSoundEffect('tick');
+                } else {
+                    clearInterval(iv);
+                    ol.classList.remove('active');
+                    setTimeout(() => { ol.style.display = 'none'; startQuizGame(); }, 300);
+                }
+            }, 1000);
         }
 
-        function startQuizGame() { sessionScore = 0; document.getElementById('gameScoreText').innerText = 0; document.getElementById('gameHeartsText').innerText = globalDatabaseHearts; const gs = document.getElementById('gameScreen'); gs.style.display = 'flex'; setTimeout(() => gs.classList.add('active'), 10); loadNextQuestion(); }
-        function exitGameScreen() { clearInterval(timerInterval); const gs = document.getElementById('gameScreen'); gs.classList.remove('active'); setTimeout(() => gs.style.display = 'none', 400); }
+        function startQuizGame() {
+            sessionScore = 0;
+            document.getElementById('gameScoreText').innerText = 0;
+            document.getElementById('gameHeartsText').innerText = globalDatabaseHearts;
+            const gs = document.getElementById('gameScreen');
+            gs.style.display = 'flex';
+            setTimeout(() => gs.classList.add('active'), 10);
+            loadNextQuestion();
+        }
+
+        function exitGameScreen() {
+            clearInterval(timerInterval);
+            const gs = document.getElementById('gameScreen');
+            gs.classList.remove('active');
+            setTimeout(() => gs.style.display = 'none', 400);
+        }
 
         function loadNextQuestion() {
             isAnswered = false; clearInterval(timerInterval);
@@ -776,6 +1158,7 @@
             }
 
             if (targetPool.length === 0) {
+                playSoundEffect('correct');
                 alert("تهانينا! لقد أنهيت جميع الأسئلة المتوفرة في اللعبة بنجاح! 🎉");
                 endGameAndSave();
                 return;
@@ -791,7 +1174,7 @@
             const opts = cq.options.map((t, idx) => ({ t, isC: idx === cq.correct }));
             const sh = shuffleArray(opts); const nci = sh.findIndex(o => o.isC);
             
-            sh.forEach((o, i) => { 
+            sh.forEach((o) => { 
                 const card = document.createElement('div'); 
                 card.className = 'option-card'; card.innerText = o.t || ""; 
                 card.onclick = () => checkSelectedAnswerMuted(o.isC, card, nci); 
@@ -800,76 +1183,164 @@
             startCountdownTimer();
         }
 
-        function startCountdownTimer() { const tb = document.getElementById('timerBar'); tb.style.width = '100%'; let el = 0; timerInterval = setInterval(() => { el += 100; tb.style.width = `${100 - (el / 7000) * 100}%`; if (el >= 7000) { clearInterval(timerInterval); handleWrongTurn("انتهى الوقت! ⏰"); } }, 100); }
+        // مؤقت 9 ثوانٍ مع تكتكة تنبيهية في آخر 3 ثوانٍ
+        function startCountdownTimer() {
+            const tb = document.getElementById('timerBar');
+            tb.style.width = '100%';
+            let el = 0;
+            timerInterval = setInterval(() => {
+                el += 100;
+                tb.style.width = `${100 - (el / QUESTION_TIME_MS) * 100}%`;
+
+                if (el === 6000 || el === 7000 || el === 8000) {
+                    playSoundEffect('tick');
+                }
+
+                if (el >= QUESTION_TIME_MS) {
+                    clearInterval(timerInterval);
+                    playSoundEffect('wrong');
+                    handleWrongTurn("انتهى الوقت! ⏰");
+                }
+            }, 100);
+        }
 
         function checkSelectedAnswerMuted(isC, card, correctIdx) {
             if (isAnswered) return; isAnswered = true; clearInterval(timerInterval);
             if (isC) { 
+                playSoundEffect('correct');
                 card.classList.add('correct'); sessionScore++; 
                 document.getElementById('gameScoreText').innerText = sessionScore; 
-                setTimeout(() => { loadNextQuestion(); }, 1000); 
+                setTimeout(() => { loadNextQuestion(); }, 950); 
             } else { 
+                playSoundEffect('wrong');
                 card.classList.add('wrong'); const cs = document.querySelectorAll('.option-card'); 
                 if(cs[correctIdx]) cs[correctIdx].classList.add('correct'); 
-                setTimeout(() => { handleWrongTurn("خاطئ! 💥"); }, 1000); 
+                setTimeout(() => { handleWrongTurn("إجابة خاطئة! 💥"); }, 950); 
             }
         }
 
-        function handleWrongTurn(txt) { document.getElementById('reviveTitleText').innerText = txt; const ub = document.getElementById('useHeartBtn'); if (globalDatabaseHearts > 0) { ub.disabled = false; ub.style.opacity = '1'; } else { ub.disabled = true; ub.style.opacity = '0.4'; } document.getElementById('reviveModal').classList.add('open'); }
-        function reviveWithHeart() { if (globalDatabaseHearts > 0 && currentUserNode) { globalDatabaseHearts--; database.ref('users/' + currentUserNode.uid + '/hearts').set(globalDatabaseHearts).then(() => { document.getElementById('gameHeartsText').innerText = globalDatabaseHearts; document.getElementById('reviveModal').classList.remove('open'); loadNextQuestion(); }); } }
-        
-        function reviveWithAd() { 
-            if (!currentUserNode) return;
-            if (!checkAndIncrementAdLimit()) return; 
-            
-            document.getElementById('reviveModal').classList.remove('open'); 
-            loadNextQuestion(); 
+        function handleWrongTurn(txt) {
+            document.getElementById('reviveTitleText').innerText = txt;
+            const ub = document.getElementById('useHeartBtn');
+            if (globalDatabaseHearts > 0) { ub.disabled = false; ub.style.opacity = '1'; }
+            else { ub.disabled = true; ub.style.opacity = '0.4'; }
+            document.getElementById('reviveModal').classList.add('open');
+        }
+
+        function reviveWithHeart() {
+            if (globalDatabaseHearts > 0 && currentUserNode) {
+                playSoundEffect('click');
+                globalDatabaseHearts--;
+                database.ref('users/' + currentUserNode.uid + '/hearts').set(globalDatabaseHearts).then(() => {
+                    document.getElementById('gameHeartsText').innerText = globalDatabaseHearts;
+                    document.getElementById('reviveModal').classList.remove('open');
+                    loadNextQuestion();
+                });
+            }
         }
         
-        function endGameAndSave() { document.getElementById('reviveModal').classList.remove('open'); if (currentUserNode && sessionScore > 0) { database.ref('users/' + currentUserNode.uid).once('value').then((snap) => { const d = snap.val(); if(d && sessionScore > (d.points || 0)) database.ref('users/' + currentUserNode.uid).update({ points: sessionScore }); exitGameScreen(); }); } else exitGameScreen(); }
+        function endGameAndSave() {
+            playSoundEffect('click');
+            document.getElementById('reviveModal').classList.remove('open');
+            if (currentUserNode && sessionScore > 0) {
+                database.ref('users/' + currentUserNode.uid).once('value').then((snap) => {
+                    const d = snap.val();
+                    if(d && sessionScore > (d.points || 0)) {
+                        database.ref('users/' + currentUserNode.uid).update({ points: sessionScore });
+                    }
+                    exitGameScreen();
+                });
+            } else {
+                exitGameScreen();
+            }
+        }
 
+        // ==================== إصلاح باگ الترتيب العالمي وقائمة المتصدرين ====================
         function openLeaderboardScreen() {
-            const lc = document.getElementById('leaderboardList'); lc.innerHTML = 'تحميل...';
-            database.ref('users').orderByChild('points').limitToLast(20).once('value', (snap) => {
-                lc.innerHTML = ''; let l = []; 
+            playSoundEffect('click');
+            const lc = document.getElementById('leaderboardList');
+            lc.innerHTML = '<div style="text-align:center; color:#94a3b8; padding:20px;">جاري تحميل قائمة الأبطال...</div>';
+
+            // تحديث البطاقة السفلية للاعب الحالي فوراً مهما كان ترتيبه (حتى لو خارج الـ Top 20)
+            document.getElementById('stickyPlayerRank').innerText = `#${currentUserDataCache.rank}`;
+            document.getElementById('stickyPlayerPoints').innerText = currentUserDataCache.points;
+            document.getElementById('stickyPlayerName').innerText = `${currentUserDataCache.name} (أنت)`;
+            applyAvatarToElement(document.getElementById('stickyPlayerAvatar'), currentUserDataCache.avatar, currentUserDataCache.name);
+
+            database.ref('users').orderByChild('points').once('value', (snap) => {
+                lc.innerHTML = '';
+                let allPlayers = []; 
                 snap.forEach((c) => { 
-                    if (c.exists() && c.val()) {
-                        l.push({ uid: c.key, ...c.val() }); 
+                    if (c.exists() && c.val() && c.val().name && !c.val().banned) {
+                        allPlayers.push({ uid: c.key, ...c.val() }); 
                     }
                 }); 
-                l.sort((a, b) => (b.points || 0) - (a.points || 0));
-                
-                l.forEach((leader, idx) => {
-                    if (!leader || !leader.name) return; 
-                    const r = idx + 1; let rc = r===1?'rank-1':(r===2?'rank-2':(r===3?'rank-3':'')); const li = document.createElement('div'); li.className = 'leaderboard-item';
-                    let av = leader.avatar ? `<div class="leaderboard-avatar" style="background-image: url('${leader.avatar}'); background-size: cover;"></div>` : `<div class="leaderboard-avatar">${(leader.name || "ل").charAt(0)}</div>`;
-                    li.innerHTML = `<div class="player-info-side"><div class="rank-badge ${rc}">#${r}</div>${av}<span class="leaderboard-player-name">${leader.name}</span></div><div class="player-points-side"><span>${leader.points || 0}</span></div>`;
-                    lc.appendChild(li);
-                    
-                    if(currentUserNode && leader.uid === currentUserNode.uid) { 
-                        document.getElementById('stickyPlayerRank').innerText = `#${r}`; 
-                        document.getElementById('stickyPlayerPoints').innerText = leader.points || 0; 
-                        const sa = document.getElementById('stickyPlayerAvatar'); 
-                        if (leader.avatar) { sa.innerText = ''; sa.style.backgroundImage = `url('${leader.avatar}')`; } 
-                        else sa.innerText = (leader.name || "ل").charAt(0); 
+                allPlayers.sort((a, b) => (b.points || 0) - (a.points || 0));
+
+                // حساب ترتيب اللاعب الدقيق من القائمة الكاملة
+                if (currentUserNode) {
+                    const myIdx = allPlayers.findIndex(x => x.uid === currentUserNode.uid);
+                    if (myIdx !== -1) {
+                        const exactRank = myIdx + 1;
+                        currentUserDataCache.rank = exactRank;
+                        document.getElementById('stickyPlayerRank').innerText = `#${exactRank}`;
+                        document.getElementById('userGlobalRank').innerText = `#${exactRank}`;
                     }
+                }
+
+                // عرض أفضل 20 لاعب
+                const top20 = allPlayers.slice(0, 20);
+                top20.forEach((leader, idx) => {
+                    const r = idx + 1;
+                    let rc = r === 1 ? 'rank-1' : (r === 2 ? 'rank-2' : (r === 3 ? 'rank-3' : ''));
+                    const li = document.createElement('div');
+                    li.className = 'leaderboard-item';
+                    if (currentUserNode && leader.uid === currentUserNode.uid) {
+                        li.style.borderColor = 'var(--neon-cyan)';
+                        li.style.background = 'rgba(0, 242, 254, 0.08)';
+                    }
+
+                    let av = leader.avatar 
+                        ? `<div class="leaderboard-avatar" style="background-image: url('${leader.avatar}'); background-size: cover; background-position: center;"></div>` 
+                        : `<div class="leaderboard-avatar">${(leader.name || "ل").charAt(0)}</div>`;
+
+                    li.innerHTML = `
+                        <div class="player-info-side">
+                            <div class="rank-badge ${rc}">#${r}</div>
+                            ${av}
+                            <span class="leaderboard-player-name">${leader.name}</span>
+                        </div>
+                        <div class="player-points-side"><span>${leader.points || 0}</span></div>
+                    `;
+                    lc.appendChild(li);
                 });
             });
-            const b = document.getElementById('leaderboardScreen'); b.style.display = 'flex'; setTimeout(() => b.classList.add('active'), 10);
+
+            const b = document.getElementById('leaderboardScreen');
+            b.style.display = 'flex';
+            setTimeout(() => b.classList.add('active'), 10);
         }
-        function closeLeaderboardScreen() { const b = document.getElementById('leaderboardScreen'); b.classList.remove('active'); setTimeout(() => b.style.display = 'none', 400); }
+
+        function closeLeaderboardScreen() {
+            playSoundEffect('click');
+            const b = document.getElementById('leaderboardScreen');
+            b.classList.remove('active');
+            setTimeout(() => b.style.display = 'none', 400);
+        }
         
-        function calculateGlobalRanking(uid, pts) { 
+        function calculateGlobalRanking(uid) { 
             database.ref('users').orderByChild('points').once('value', (snap) => { 
                 let u = []; 
                 snap.forEach((c) => { 
-                    if (c.exists() && c.val()) {
+                    if (c.exists() && c.val() && !c.val().banned) {
                         u.push({ uid: c.key, points: c.val().points || 0 }); 
                     }
                 }); 
                 u.sort((a, b) => b.points - a.points); 
                 let idx = u.findIndex(x => x.uid === uid); 
-                document.getElementById('userGlobalRank').innerText = `#${idx !== -1 ? idx + 1 : '..'}`; 
+                const rankVal = idx !== -1 ? idx + 1 : '..';
+                currentUserDataCache.rank = rankVal;
+                document.getElementById('userGlobalRank').innerText = `#${rankVal}`; 
             }); 
         }
     </script>
